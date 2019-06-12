@@ -18,7 +18,8 @@ class App extends Component {
     input: {lastClicked: 'Featured', login: {username: '', password: ''},
     signup: {username: '', password1: '', password2: ''}, comment: '', createarticle: {topic: 'New Topic', newtopic: '', title: '', body: ''}, votes: {articles: {}, comments: {}},
     articleSort: {topic: 'All', sort: 'Newest'}},
-    articleSort: {sort_by: 'date', order: 'desc', topic: null, author: null, limit: 15, p: 1}
+    articleSort: {sort_by: 'date', order: 'desc', topic: null, author: null, limit: 15, p: 1},
+    hidden: {comments: false}
   };
 
   componentDidMount = () => {
@@ -85,7 +86,8 @@ class App extends Component {
         selectTopic={this.selectTopic}
         selectAuthor={this.selectAuthor}
         setListScroller={this.setListScroller}
-        scrollList={this.scrollList} />
+        scrollList={this.scrollList}
+        toggleHidden={this.toggleHidden} />
       {page[2] &&
         <Page
           state={{...this.state}}
@@ -97,7 +99,8 @@ class App extends Component {
           userVote={this.userVote}
           selectTopic={this.selectTopic}
           selectAuthor={this.selectAuthor}
-          setListScroller={this.setListScroller} />}
+          setListScroller={this.setListScroller}
+          toggleHidden={this.toggleHidden} />}
     </div>
   };
 
@@ -383,12 +386,20 @@ class App extends Component {
       })
   };
 
+  toggleHidden = (type) => {
+    this.setState(prevState => {
+      return {
+        hidden: {...prevState.hidden, [type]: !prevState.hidden[type]}
+      };
+    });
+  };
+
 };
 
 // Main Components
 
-function Page ({state, pageNum, content, updatePage, userInput, userSubmit, userVote, sortArticles, selectArticle, selectTopic, selectAuthor, setListScroller, scrollList}) {
-  const {page, topArticles, topComments, input, user, articles, topics, selectedArticle, listScroller} = state;
+function Page ({state, pageNum, content, updatePage, userInput, userSubmit, userVote, sortArticles, selectArticle, selectTopic, selectAuthor, setListScroller, scrollList, toggleHidden}) {
+  const {page, topArticles, topComments, input, user, articles, topics, selectedArticle, listScroller, hidden} = state;
   return <div className={`page ${pageNum}`}>
     {content === 'Featured' && <Featured
                                   topArticles={topArticles}
@@ -423,7 +434,9 @@ function Page ({state, pageNum, content, updatePage, userInput, userSubmit, user
                                 userVote={userVote}
                                 input={input}
                                 selectTopic={selectTopic}
-                                selectAuthor={selectAuthor} />}
+                                selectAuthor={selectAuthor}
+                                hidden={hidden.comments}
+                                toggleHidden={toggleHidden} />}
     {content === 'Create Article' && <CreateArticle
                                         input={input}
                                         userInput={userInput}

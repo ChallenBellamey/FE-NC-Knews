@@ -378,10 +378,20 @@
 
 /* Article Page */
 
-.article {
+.article-hidden-false {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 5em 1fr 2.5em 1fr;
+  grid-template-areas:  "article-header"
+                        "article-body"
+                        "comments-header"
+                        "comments-list";
+}
+
+.article-hidden-true {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 5em 1fr 2.5em 0em;
   grid-template-areas:  "article-header"
                         "article-body"
                         "comments-header"
@@ -448,6 +458,22 @@
 }
 
 .comments-header h2{
+  margin: auto;
+}
+
+.comments-header-hide {
+  width: 1em;
+  position: relative;
+  top: 5%;
+  left: 75%;
+  margin: auto;
+}
+
+.comments-header-show {
+  width: 1em;
+  position: relative;
+  top: 5%;
+  left: 75%;
   margin: auto;
 }
 

@@ -4,9 +4,12 @@ import bin from '../images/bin.png';
 import thumbsup from '../images/thumbsup.png';
 import thumbsdown from '../images/thumbsdown.png';
 import blank from '../images/blank.png';
+import caretUp from '../images/caret-up.png';
+import caretDown from '../images/caret-down.png';
 
-export function Article ({article, comments, user, input, userInput, userSubmit, userVote, selectTopic, selectAuthor}) {
-    return <div className={"page article"}>
+
+export function Article ({article, comments, user, input, userInput, userSubmit, userVote, selectTopic, selectAuthor, hidden, toggleHidden}) {
+    return <div className={`page article-hidden-${hidden}`}>
       <div className={"header article-header"}>
         <span className={"article-header-title"}>
           {article.title}
@@ -47,10 +50,20 @@ export function Article ({article, comments, user, input, userInput, userSubmit,
       <div className={"article-body"}>
         <p>{article.body}</p>
       </div>
-      <div className={"header comments-header"}>
-        <h2>Comments</h2>
+      <div className={"header comments-header"}
+           onClick={() => toggleHidden('comments')}>
+        <h2>Comments
+        {!hidden && <img
+            className={"comments-header-hide"}
+            src={caretDown}
+            alt="\/" />}
+        {hidden && <img
+            className={"comments-header-show"}
+            src={caretUp}
+            alt="/\" />}
+        </h2>
       </div>
-      <div className={"list comments-list"}>
+      {!hidden &&  <div className={"list comments-list"}>
         {user && <div className={"listitem comments-custom"}>
           <textarea
             onChange={(event) => userInput('comment', null, event.nativeEvent.target.value)}
@@ -95,6 +108,6 @@ export function Article ({article, comments, user, input, userInput, userSubmit,
             </span>
               </div>
             })}
-      </div>
+      </div>}
     </div>
   };
