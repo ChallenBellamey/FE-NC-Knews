@@ -19,7 +19,7 @@ class App extends Component {
     signup: {username: '', password1: '', password2: ''}, comment: '', createarticle: {topic: 'New Topic', newtopic: '', title: '', body: ''}, votes: {articles: {}, comments: {}},
     articleSort: {topic: 'All', sort: 'Newest'}},
     articleSort: {sort_by: 'date', order: 'desc', topic: null, author: null, limit: 15, p: 1},
-    hidden: {comments: false}
+    hidden: {comments: true}
   };
 
   componentDidMount = () => {
@@ -369,7 +369,8 @@ class App extends Component {
     this.setState(prevState => {
       return {
         selectedArticle: {article, comments: null},
-        input: {...prevState.input, comment: ''}
+        input: {...prevState.input, comment: ''},
+        hidden: {...prevState.hidden, comments: true}
       };
     });
     getArticleComments(article)
