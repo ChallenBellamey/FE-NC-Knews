@@ -410,24 +410,24 @@
 .article-header-bin {
   width: 1em;
   position: relative;
-  top: -333%;
-  left: 333%;
+  top: 0%;
+  left: 5%;
   margin: auto;
 }
 
 .article-header-voteup {
   width: 1em;
   position: relative;
-  top: -133%;
-  left: 280%;
+  top: 0%;
+  left: -25%;
   margin: auto;
 }
 
 .article-header-votedown {
   width: 1em;
   position: relative;
-  top: -133%;
-  left: 220%;
+  top: 5%;
+  left: 25%;
   margin: auto;
 }
 
@@ -482,26 +482,29 @@
 .comment-bin {
   width: 1em;
   position: relative;
-  top: -250%;
-  left: 225%;
+  top: 0%;
+  left: 10%;
   margin: auto;
 }
+
 
 .comment-voteup {
   width: 1em;
   position: relative;
-  top: -250%;
-  left: 185%;
+  top: 0%;
+  left: -5%;
   margin: auto;
 }
+
 
 .comment-votedown {
   width: 1em;
   position: relative;
-  top: -250%;
-  left: 115%;
+  top: 5%;
+  left: 5%;
   margin: auto;
 }
+
 
 .comments-custom {
   height: 10em;

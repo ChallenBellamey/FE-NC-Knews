@@ -8,7 +8,15 @@ import blank from '../images/blank.png';
 export function Article ({article, comments, user, input, userInput, userSubmit, userVote, selectTopic, selectAuthor}) {
     return <div className={"page article"}>
       <div className={"header article-header"}>
-        <span className={"article-header-title"}>{article.title}</span>
+        <span className={"article-header-title"}>
+          {article.title}
+          {user && user.username === article.author &&
+            <img
+              className={"article-header-bin"}
+              src={bin}
+              alt="delete"
+              onClick={() => userSubmit('Delete Article')} />}
+        </span>
         <span className={'select'}
           onClick={() => selectTopic(article.topic)}
           >{article.topic}</span>
@@ -16,29 +24,25 @@ export function Article ({article, comments, user, input, userInput, userSubmit,
            onClick={() => selectAuthor(article.author)}
           >{article.author}</span>
         <span>{article.created_at.slice(0, 10)}</span>
-        <span>{article.votes}</span>
-        {user && user.username === article.author &&
-          <img
-            className={"article-header-bin"}
-            src={bin}
-            alt="delete"
-            onClick={() => userSubmit('Delete Article')} />}
-        {(user && user.username !== article.author && (!input.votes.articles[article.article_id] || input.votes.articles[article.article_id] < 1) &&
-          <img
-            className={"article-header-voteup"}
-            src={thumbsup}
-            alt="/\"
-            onClick={() => userVote('Vote Up Article', article.article_id)} />) ||
-          <img
-            className={"article-header-voteup"}
-            src={blank}
-            alt="" />}
-        {user && user.username !== article.author && (!input.votes.articles[article.article_id] || input.votes.articles[article.article_id] > -1) &&
+        <span>
+          {(user && user.username !== article.author && (!input.votes.articles[article.article_id] || input.votes.articles[article.article_id] < 1) &&
+            <img
+              className={"article-header-voteup"}
+              src={thumbsup}
+              alt="/\"
+              onClick={() => userVote('Vote Up Article', article.article_id)} />) ||
+            <img
+              className={"article-header-voteup"}
+              src={blank}
+              alt="" />}
+          {article.votes}
+          {user && user.username !== article.author && (!input.votes.articles[article.article_id] || input.votes.articles[article.article_id] > -1) &&
           <img
             className={"article-header-votedown"}
             src={thumbsdown}
             alt="\/"
             onClick={() => userVote('Vote Down Article', article.article_id)} />}
+        </span>
       </div>
       <div className={"article-body"}>
         <p>{article.body}</p>
@@ -64,29 +68,31 @@ export function Article ({article, comments, user, input, userInput, userSubmit,
               onClick={() => selectAuthor(comment.author)}
               >{comment.author}</span>
             <span>{comment.created_at.slice(0, 10)}</span>
-            <span>{comment.votes}</span>
-            {user && user.username === comment.author &&
-              <img
-                className={"comment-bin"}
-                src={bin}
-                alt="delete"
-                onClick={() => userVote('Delete Comment', comment.comment_id)} />}
-            {(user && user.username !== comment.author && (!input.votes.comments[comment.comment_id] || input.votes.comments[comment.comment_id] < 1) &&
-              <img
-                className={"comment-voteup"}
-                src={thumbsup}
-                alt="/\"
-                onClick={() => userVote('Vote Up Comment', comment.comment_id)} />) ||
-              <img
-                className={"comment-voteup"}
-                src={blank}
-                alt="" />}
-            {user && user.username !== comment.author && (!input.votes.comments[comment.comment_id] || input.votes.comments[comment.comment_id] > -1) &&
-              <img
-                className={"comment-votedown"}
-                src={thumbsdown}
-                alt="\/"
-                onClick={() => userVote('Vote Down Comment', comment.comment_id)} />}
+            <span>
+              {(user && user.username !== comment.author && (!input.votes.comments[comment.comment_id] || input.votes.comments[comment.comment_id] < 1) &&
+                <img
+                  className={"comment-voteup"}
+                  src={thumbsup}
+                  alt="/\"
+                  onClick={() => userVote('Vote Up Comment', comment.comment_id)} />) ||
+                <img
+                  className={"comment-voteup"}
+                  src={blank}
+                  alt="" />}
+              {comment.votes}
+              {user && user.username !== comment.author && (!input.votes.comments[comment.comment_id] || input.votes.comments[comment.comment_id] > -1) &&
+                <img
+                  className={"comment-votedown"}
+                  src={thumbsdown}
+                  alt="\/"
+                  onClick={() => userVote('Vote Down Comment', comment.comment_id)} />}
+              {user && user.username === comment.author &&
+                <img
+                  className={"comment-bin"}
+                  src={bin}
+                  alt="delete"
+                  onClick={() => userVote('Delete Comment', comment.comment_id)} />}
+            </span>
               </div>
             })}
       </div>
