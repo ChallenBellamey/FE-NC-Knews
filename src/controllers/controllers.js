@@ -1,16 +1,20 @@
 import axios from 'axios';
+import openSocket from 'socket.io-client';
 
 // API Requests
 
 // GET
 
-export const getUser = async (username) => {
-    return axios.get(`https://nc-knews-cb.herokuapp.com/api/users/${username}`)
-        .then(({data: {user}}) => {
-            return user;
+export const getUsers = async () => {
+    return axios.get('https://nc-knews-cb.herokuapp.com/api/users', {
+        limit: 10
+    })
+        .then(({data: {users}}) => {
+            console.log(users)
+            return users;
         })
         .catch(err => {return null})
-};
+}
 
 export const getSortedArticles = async (params) => {
     let path = 'https://nc-knews-cb.herokuapp.com/api/articles';
@@ -49,6 +53,25 @@ export const getTopics = async () => {
 };
 
 // POST
+
+export const loginUser = async (username, password) => {
+    const socket = openSocket('https://nc-knews-cb.herokuapp.com');
+    console.log(socket);
+    return axios.post(`https://nc-knews-cb.herokuapp.com/api/users/${username}`, {
+        username,
+        password,
+        socket
+    })
+        .then(({data}) => {
+            console.log(data)
+            // return {user, socket};
+        })
+        .catch(err => {return null})
+};
+
+export const logoutUser = async (socket) => {
+    socket.disconnect(true);
+}
 
 export const postComment = async (article_id, username, body) => {
     return axios.post(`https://nc-knews-cb.herokuapp.com/api/articles/${article_id}/comments`, {

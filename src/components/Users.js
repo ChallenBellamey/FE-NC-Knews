@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function Users ({userPage, input, userInput, userSubmit, user}) {
+export function Users ({recentUsers, userPage, input, userInput, userSubmit, user}) {
     return <div className={"page users"}>
       <div className={"header users-header"}>
         <h2>Users</h2>
@@ -8,7 +8,18 @@ export function Users ({userPage, input, userInput, userSubmit, user}) {
         <span>{userPage}</span>
       </div>
       <div className={"list users-list"}>
-  
+        {recentUsers.filter(user => user.online).map((user, i) => {
+          return <div key={i}
+                      className={"listitem users-listitem"}>
+            <span>{user.username}</span>
+            <span>Online</span>
+          </div>})}
+        {recentUsers.filter(user => !user.online).map((user, i) => {
+          return <div key={i}
+                      className={"listitem users-listitem"}>
+            <span>{user.username}</span>
+            <span>{user.last_online.slice(0, 10)}</span>
+          </div>})}
       </div>
       {userPage === 'Log In' &&
         <div className={"users-user"}>
@@ -42,9 +53,10 @@ export function Users ({userPage, input, userInput, userSubmit, user}) {
       }
       {user && userPage === user.username &&
         <div className={"users-user"}>
-          <img src={user.avatar_url} alt={"avatar"}></img>
-          <span>{user.username}</span>
-          <span>{user.name}</span>
+          <h3 className="users-question">{user.username}</h3>
+          <span className="users-answer">{user.name}</span>
+          <span className="users-question">About me</span>
+          <span className="users-answer">{user.about}</span>
         </div>
       }
     </div>

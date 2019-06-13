@@ -272,11 +272,6 @@
   align-items: center;
 }
 
-.users-user span{
-  margin: 1em auto 0em;
-  width: 50%;
-}
-
 .users-user input{
   margin: 0em auto 1em;
   width: 50%;
@@ -286,10 +281,15 @@
   margin: 1em auto;
 }
 
-.users-user img{
-  max-width: 5em;
-  max-height: 5em;
-  margin: 1em auto;
+.users-question {
+  margin: 1em auto 0em;
+  font-weight: bold;
+  width: 50%;
+}
+
+.users-answer {
+  margin: 0em auto 1em;
+  width: 75%;
 }
 
 /* Articles Page */

@@ -6,7 +6,7 @@ import {CreateArticle} from './components/CreateArticle';
 import {Featured} from './components/Featured';
 import {Navbar} from './components/Navbar';
 import {Users} from './components/Users';
-import {getSortedArticles, getTopComments, getArticleComments, getUser, postComment, getTopics, postTopic, postArticle, patchArticleVote, patchCommentVote, deleteArticle, deleteComment} from './controllers/controllers';
+import {getSortedArticles, getTopComments, getUsers, getArticleComments, loginUser, logoutUser, postComment, getTopics, postTopic, postArticle, patchArticleVote, patchCommentVote, deleteArticle, deleteComment} from './controllers/controllers';
 import backgroundImage from './images/back.jpg';
 
 // Main Components
@@ -15,6 +15,8 @@ class App extends Component {
   state = {
     page: {1: 'Featured', 2: 'Users', user: 'Sign Up'},
     user: null,
+    socket: null,
+    recentUsers: [],
     input: {lastClicked: 'Featured', login: {username: '', password: ''},
     signup: {username: '', password1: '', password2: ''}, comment: '', createarticle: {topic: 'New Topic', newtopic: '', title: '', body: ''}, votes: {articles: {}, comments: {}},
     articleSort: {topic: 'All', sort: 'Newest'}},
@@ -30,6 +32,7 @@ class App extends Component {
 
     // Data
     this.getFeaturedContent();
+    this.getUsers();
     this.getArticles();
   };
 
@@ -128,6 +131,8 @@ class App extends Component {
   };
 
   updateContent = (select = true, sort = false) => {
+    this.getFeaturedContent();
+    this.getUsers();
     this.getArticles(select, sort);
     this.selectArticle(this.state.selectedArticle.article);
   };
@@ -146,6 +151,14 @@ class App extends Component {
     });
   };
 
+  getUsers = () => {
+    getUsers().then((recentUsers) => {
+      this.setState({
+        recentUsers
+      });
+    });
+  };
+
   resetInput = () => {
     this.setState(prevState => {
       return {
@@ -154,21 +167,31 @@ class App extends Component {
   };
 
   userSubmit = (type) => {
-    const {input: {login, comment, createarticle}, selectedArticle, user} = this.state;
+    const {input: {login, comment, createarticle}, selectedArticle, user, socket} = this.state;
     if (type === 'Log In') {
-      getUser(login.username)
-        .then(user => {
+      if (login.username !== '' && login.password !== '') {
+        loginUser(login.username, login.password)
+        .then((user, socket) => {
           this.setState(prevState => {
             return {
-              user,
-              page: {...prevState.page, user: user.username}
+              // user,
+              socket,
+              // page: {...prevState.page, user: user.username}
             };
           });
+          this.getUsers();
         })
-    } else if (type === 'Log Out') {
+        this.resetInput();
+      };
+    } else if (type === 'Log Out' && user) {
+      logoutUser(socket)
+        .then(() => {
+          this.getUsers();
+        })
       this.setState(prevState => {
         return {
           user: null,
+          socket: null,
           page: {...prevState.page, user: 'Log In'}
         };
       });
@@ -181,6 +204,7 @@ class App extends Component {
               selectedArticle: {...prevState.selectedArticle, comments: [...prevState.selectedArticle.comments, comment]}
             };
           });
+          this.resetInput();
         })
       };
     } else if (type === 'Article') {
@@ -193,6 +217,7 @@ class App extends Component {
         .then(article => {
           this.updateContent(false);
           this.selectArticle(article);
+          this.resetInput();
         })
       } else {
         return;
@@ -202,9 +227,9 @@ class App extends Component {
       deleteArticle(article_id, topic)
         .then((message) => {
           this.selectTopic(null, true);
+          this.resetInput();
         })
     };
-    this.resetInput();
   };
 
   userVote = (type, id) => {
@@ -400,7 +425,7 @@ class App extends Component {
 // Main Components
 
 function Page ({state, pageNum, content, updatePage, userInput, userSubmit, userVote, sortArticles, selectArticle, selectTopic, selectAuthor, setListScroller, scrollList, toggleHidden}) {
-  const {page, topArticles, topComments, input, user, articles, topics, selectedArticle, listScroller, hidden} = state;
+  const {page, topArticles, topComments, input, user, articles, topics, selectedArticle, listScroller, hidden, recentUsers} = state;
   return <div className={`page ${pageNum}`}>
     {content === 'Featured' && <Featured
                                   topArticles={topArticles}
@@ -408,6 +433,7 @@ function Page ({state, pageNum, content, updatePage, userInput, userSubmit, user
                                   selectArticle={selectArticle}
                                   selectAuthor={selectAuthor} />}
     {content === 'Users' && <Users
+                              recentUsers={recentUsers}
                               userPage={page.user}
                               userInput={userInput}
                               userSubmit={userSubmit} 
