@@ -39,7 +39,7 @@ class App extends Component {
     const limit = Math.ceil(window.innerHeight / (16 * 5)) + 1;
     this.setState(prevState => {
       return {
-        articleSort: {...prevState.articleSort, limit}
+        articleSort: {...prevState.articleSort, limit, p: 1}
       };
     }, this.getArticles());
     const display = (window.innerWidth < 1000) ? 'Mobile' : 'Desktop';
