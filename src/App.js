@@ -19,7 +19,7 @@ class App extends Component {
     input: {lastClicked: 'Featured', login: {username: '', password: ''},
     signup: {username: '', password1: '', password2: '', name: '', about: ''}, comment: '', createarticle: {topic: 'New Topic', newtopic: '', title: '', body: ''}, votes: {articles: {}, comments: {}},
     articleSort: {topic: 'All', sort: 'Newest'}},
-    articleSort: {sort_by: 'date', order: 'desc', topic: null, author: null, limit: Math.ceil(window.innerHeight / (16 * 5)) + 1, p: 1},
+    articleSort: {sort_by: 'date', order: 'desc', topic: null, author: null, limit: Math.ceil(window.innerHeight / (16 * 5)) - 1, p: 1},
     hidden: {comments: true}
   };
 
@@ -36,12 +36,14 @@ class App extends Component {
   };
 
   updateDisplay = () => {
-    const limit = Math.ceil(window.innerHeight / (16 * 5)) + 1;
-    this.setState(prevState => {
-      return {
-        articleSort: {...prevState.articleSort, limit, p: 1}
-      };
-    }, this.getArticles());
+    const limit = Math.ceil(window.innerHeight / (16 * 5)) - 1;
+    if (limit !== this.state.articleSort.limit) {
+      this.setState(prevState => {
+        return {
+          articleSort: {...prevState.articleSort, limit, p: 1}
+        };
+      }, () => {this.getArticles(false)});
+    };
     const display = (window.innerWidth < 1000) ? 'Mobile' : 'Desktop';
     if (display !== this.state.display) {
       if (display === 'Desktop') {
