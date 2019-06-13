@@ -8,13 +8,13 @@ export function Users ({recentUsers, userPage, input, userInput, userSubmit, use
         <span>{userPage}</span>
       </div>
       <div className={"list users-list"}>
-        {recentUsers.filter(user => user.online).map((user, i) => {
+        {recentUsers && recentUsers.filter(user => user.online).map((user, i) => {
           return <div key={i}
                       className={"listitem users-listitem"}>
             <span>{user.username}</span>
             <span>Online</span>
           </div>})}
-        {recentUsers.filter(user => !user.online).map((user, i) => {
+        {recentUsers && recentUsers.filter(user => !user.online).map((user, i) => {
           return <div key={i}
                       className={"listitem users-listitem"}>
             <span>{user.username}</span>

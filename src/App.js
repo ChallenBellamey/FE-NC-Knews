@@ -15,7 +15,6 @@ class App extends Component {
   state = {
     page: {1: 'Featured', 2: 'Users', user: 'Sign Up'},
     user: null,
-    socket: null,
     recentUsers: [],
     input: {lastClicked: 'Featured', login: {username: '', password: ''},
     signup: {username: '', password1: '', password2: ''}, comment: '', createarticle: {topic: 'New Topic', newtopic: '', title: '', body: ''}, votes: {articles: {}, comments: {}},
@@ -167,16 +166,15 @@ class App extends Component {
   };
 
   userSubmit = (type) => {
-    const {input: {login, comment, createarticle}, selectedArticle, user, socket} = this.state;
+    const {input: {login, comment, createarticle}, selectedArticle, user} = this.state;
     if (type === 'Log In') {
       if (login.username !== '' && login.password !== '') {
         loginUser(login.username, login.password)
-        .then((user, socket) => {
+        .then((user) => {
           this.setState(prevState => {
             return {
-              // user,
-              socket,
-              // page: {...prevState.page, user: user.username}
+              user,
+              page: {...prevState.page, user: user.username}
             };
           });
           this.getUsers();
@@ -184,14 +182,13 @@ class App extends Component {
         this.resetInput();
       };
     } else if (type === 'Log Out' && user) {
-      logoutUser(socket)
+      logoutUser(user.username)
         .then(() => {
           this.getUsers();
         })
       this.setState(prevState => {
         return {
           user: null,
-          socket: null,
           page: {...prevState.page, user: 'Log In'}
         };
       });
