@@ -1,10 +1,6 @@
 import React from 'react';
 
 export function Users ({recentUsers, userPage, input, userInput, userSubmit, user, selectAuthor}) {
-    const formatDate = (date) => {
-      return `${date.slice(8, 10)}/${date.slice(5, 7)}/${date.slice(0, 4)} ${date.slice(11, 19)}`;
-    };
-
     return <div className={"page users"}>
       <div className={"header users-header"}>
         <h2>Users</h2>
@@ -17,7 +13,7 @@ export function Users ({recentUsers, userPage, input, userInput, userSubmit, use
                       className={"listitem users-listitem"}
                       onClick={() => selectAuthor(user.username)}>
             <span>{user.username}</span>
-            <span>{formatDate(user.last_online)}</span>
+            <span>{user.last_online}</span>
           </div>})}
       </div>
       {userPage === 'Log In' &&
