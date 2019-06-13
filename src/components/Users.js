@@ -1,9 +1,8 @@
 import React from 'react';
 
-export function Users ({recentUsers, userPage, input, userInput, userSubmit, user}) {
+export function Users ({recentUsers, userPage, input, userInput, userSubmit, user, selectAuthor}) {
     const formatDate = (date) => {
-      let newDate = `${date.slice(8, 10)}/${date.slice(5, 7)}/${date.slice(0, 4)} ${date.slice(11, 19)}`;
-      return newDate;
+      return `${date.slice(8, 10)}/${date.slice(5, 7)}/${date.slice(0, 4)} ${date.slice(11, 19)}`;
     };
 
     return <div className={"page users"}>
@@ -15,19 +14,22 @@ export function Users ({recentUsers, userPage, input, userInput, userSubmit, use
       <div className={"list users-list"}>
         {recentUsers && recentUsers.map((user, i) => {
           return <div key={i}
-                      className={"listitem users-listitem"}>
+                      className={"listitem users-listitem"}
+                      onClick={() => selectAuthor(user.username)}>
             <span>{user.username}</span>
             <span>{formatDate(user.last_online)}</span>
           </div>})}
       </div>
       {userPage === 'Log In' &&
         <div className={"users-user"}>
-          <span>Username</span>
+          <span className={"users-question"}>Username</span>
           <input
+            className="users-answer"
             onChange={(event) => userInput('login', 'username', event.nativeEvent.target.value)}
             value={input.login.username}></input>
-          <span>Password</span>
+          <span className={"users-question"}>Password</span>
           <input
+            className="users-answer"
             onChange={(event) => userInput('login', 'password', event.nativeEvent.target.value)}
             value={input.login.password}></input>
           <button onClick={() => userSubmit('Log In')}>Log In</button>
@@ -35,26 +37,39 @@ export function Users ({recentUsers, userPage, input, userInput, userSubmit, use
       }
       {userPage === 'Sign Up' &&
         <div className={"users-user"}>
-          <span>Username</span>
+          <span className="users-question">Username</span>
           <input
+            className="users-answer"
             onChange={(event) => userInput('signup', 'username', event.nativeEvent.target.value)}
             value={input.signup.username}></input>
-          <span>Password</span>
+          <span className="users-question">Password</span>
           <input
+            className="users-answer"
             onChange={(event) => userInput('signup', 'password1', event.nativeEvent.target.value)}
             value={input.signup.password1}></input>
-          <span>Confirm Password</span>
+          <span className="users-question">Confirm Password</span>
           <input
+            className="users-answer"
             onChange={(event) => userInput('signup', 'password2', event.nativeEvent.target.value)}
             value={input.signup.password2}></input>
-          <button>Sign Up</button>
+          <span className="users-question">Name</span>
+          <input
+            className="users-answer"
+            onChange={(event) => userInput('signup', 'name', event.nativeEvent.target.value)}
+            value={input.signup.name}></input>
+          <span className="users-question">About</span>
+          <textarea
+            className="users-answer users-input-large"
+            onChange={(event) => userInput('signup', 'about', event.nativeEvent.target.value)}
+            value={input.signup.about}></textarea>
+          <button onClick={() => userSubmit('Sign Up')}>Sign Up</button>
         </div>
       }
       {user && userPage === user.username &&
         <div className={"users-user"}>
-          <h3 className="users-question">{user.username}</h3>
+          <h3 className="users-question"><b>{user.username}</b></h3>
           <span className="users-answer">{user.name}</span>
-          <span className="users-question">About me</span>
+          <span className="users-question"><b>About me</b></span>
           <span className="users-answer">{user.about}</span>
         </div>
       }

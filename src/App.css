@@ -267,7 +267,7 @@
 }
 
 .users-user {
-  margin: 4em 0em 0em;
+  margin: 0em;
   width: 100%;
   height: calc(100% - 4em);
   grid-area: users-user;
@@ -276,24 +276,22 @@
   align-items: center;
 }
 
-.users-user input{
-  margin: 0em auto 1em;
-  width: 50%;
-}
-
 .users-user button{
   margin: 1em auto;
 }
 
 .users-question {
-  margin: 1em auto 0em;
-  font-weight: bold;
-  width: 50%;
+  margin: 2em auto 0em;
+  width: 75%;
 }
 
 .users-answer {
-  margin: 0em auto 1em;
+  margin: 0em auto;
   width: 75%;
+}
+
+.users-input-large {
+  height: 10em;
 }
 
 /* Articles Page */

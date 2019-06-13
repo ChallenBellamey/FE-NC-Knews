@@ -53,11 +53,16 @@ export const getTopics = async () => {
 
 // POST
 
-export const loginUser = async (username, password) => {
-    return axios.post(`${path}/api/users/${username}`, {
-        username,
-        password,
-        log: 'In'
+const generateDate = () => {
+    let date = new Date();
+    date.setTime(date.getTime() + date.getTimezoneOffset());
+    return `${Math.floor(date.getDate() / 10)}${date.getDate() % 10}/${Math.floor(date.getMonth() / 10)}${date.getMonth() % 10}/${date.getFullYear()} ${Math.floor(date.getHours() / 10)}${date.getHours() % 10}:${date.getMinutes()}`;
+};
+
+export const signupUser = async (user) => {
+    return axios.post(`${path}/api/users`, {
+        ...user,
+        last_online: generateDate()
     })
         .then(({data: {user}}) => {
             return user;
@@ -65,10 +70,23 @@ export const loginUser = async (username, password) => {
         .catch(err => {return null})
 };
 
-export const logoutUser = async (username) => {
-    return axios.post(`${path}/api/users/${username}`, {
-        username,
-        log: 'Out'
+export const loginUser = async (user) => {
+    return axios.post(`${path}/api/users/${user.username}`, {
+        ...user,
+        log: 'In',
+        last_online: generateDate()
+    })
+        .then(({data: {user}}) => {
+            return user;
+        })
+        .catch(err => {return null})
+};
+
+export const logoutUser = async (user) => {
+    return axios.post(`${path}/api/users/${user.username}`, {
+        ...user,
+        log: 'Out',
+        last_online: generateDate()
     })
         .catch(err => {return null})
 }

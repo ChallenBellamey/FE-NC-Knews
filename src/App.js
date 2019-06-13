@@ -6,7 +6,7 @@ import {CreateArticle} from './components/CreateArticle';
 import {Featured} from './components/Featured';
 import {Navbar} from './components/Navbar';
 import {Users} from './components/Users';
-import {getSortedArticles, getTopComments, getUsers, getArticleComments, loginUser, logoutUser, postComment, getTopics, postTopic, postArticle, patchArticleVote, patchCommentVote, deleteArticle, deleteComment} from './controllers/controllers';
+import {getSortedArticles, getTopComments, getUsers, getArticleComments, signupUser, loginUser, logoutUser, postComment, getTopics, postTopic, postArticle, patchArticleVote, patchCommentVote, deleteArticle, deleteComment} from './controllers/controllers';
 import backgroundImage from './images/back.jpg';
 
 // Main Components
@@ -17,7 +17,7 @@ class App extends Component {
     user: null,
     recentUsers: [],
     input: {lastClicked: 'Featured', login: {username: '', password: ''},
-    signup: {username: '', password1: '', password2: ''}, comment: '', createarticle: {topic: 'New Topic', newtopic: '', title: '', body: ''}, votes: {articles: {}, comments: {}},
+    signup: {username: '', password1: '', password2: '', name: '', about: ''}, comment: '', createarticle: {topic: 'New Topic', newtopic: '', title: '', body: ''}, votes: {articles: {}, comments: {}},
     articleSort: {topic: 'All', sort: 'Newest'}},
     articleSort: {sort_by: 'date', order: 'desc', topic: null, author: null, limit: 15, p: 1},
     hidden: {comments: true}
@@ -161,28 +161,42 @@ class App extends Component {
   resetInput = () => {
     this.setState(prevState => {
       return {
-        input: {...prevState.input, lastClicked: 'Featured', login: {username: '', password: ''}, signup: {username: '', password1: '', password2: ''}, comment: '', createarticle: {topic: 'New Topic', newtopic: '', title: '', body: ''}}
+        input: {...prevState.input, lastClicked: 'Featured', login: {username: '', password: ''}, signup: {username: '', password1: '', password2: '', name: '', about: ''}, comment: '', createarticle: {topic: 'New Topic', newtopic: '', title: '', body: ''}}
     }});
   };
 
   userSubmit = (type) => {
-    const {input: {login, comment, createarticle}, selectedArticle, user} = this.state;
-    if (type === 'Log In') {
+    const {input: {signup, login, comment, createarticle}, selectedArticle, user} = this.state;
+    if (type === 'Sign Up') {
+      if (signup.username !== '' && signup.password1 !== '' && signup.password2 !== '' && signup.password1 === signup.password2) {
+        signupUser({username: signup.username, password: signup.password1, name: signup.name, about: signup.about})
+          .then((user) => {
+            if (user) this.setState(prevState => {
+              return {
+                user,
+                page: {...prevState.page, user: user.username}
+              };
+            });
+            this.getUsers();
+          })
+          this.resetInput();
+        };
+    } else if (type === 'Log In') {
       if (login.username !== '' && login.password !== '') {
-        loginUser(login.username, login.password)
-        .then((user) => {
-          this.setState(prevState => {
-            return {
-              user,
-              page: {...prevState.page, user: user.username}
-            };
-          });
-          this.getUsers();
-        })
-        this.resetInput();
-      };
+        loginUser({username: login.username, password: login.password})
+          .then((user) => {
+            if (user) this.setState(prevState => {
+              return {
+                user,
+                page: {...prevState.page, user: user.username}
+              };
+            });
+            this.getUsers();
+          })
+          this.resetInput();
+        };
     } else if (type === 'Log Out' && user) {
-      logoutUser(user.username)
+      logoutUser({username: login.username})
         .then(() => {
           this.getUsers();
         })
@@ -435,7 +449,8 @@ function Page ({state, pageNum, content, updatePage, userInput, userSubmit, user
                               userInput={userInput}
                               userSubmit={userSubmit} 
                               input={input}
-                              user={user} />}
+                              user={user}
+                              selectAuthor={selectAuthor} />}
     {content === 'Articles' && <Articles
                                   articles={articles}
                                   topics={topics}
