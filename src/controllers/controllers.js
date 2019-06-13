@@ -3,7 +3,6 @@ import axios from 'axios';
 // API Requests
 
 let path = 'https://nc-knews-cb.herokuapp.com';
-// let path = 'http://localhost:9090';
 
 // GET
 
@@ -12,7 +11,6 @@ export const getUsers = async () => {
         limit: 10
     })
         .then(({data: {users}}) => {
-            console.log(users)
             return users;
         })
         .catch(err => {return null})

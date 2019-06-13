@@ -1,6 +1,11 @@
 import React from 'react';
 
 export function Users ({recentUsers, userPage, input, userInput, userSubmit, user}) {
+    const formatDate = (date) => {
+      let newDate = `${date.slice(8, 10)}/${date.slice(5, 7)}/${date.slice(0, 4)} ${date.slice(11, 19)}`;
+      return newDate;
+    };
+
     return <div className={"page users"}>
       <div className={"header users-header"}>
         <h2>Users</h2>
@@ -8,17 +13,11 @@ export function Users ({recentUsers, userPage, input, userInput, userSubmit, use
         <span>{userPage}</span>
       </div>
       <div className={"list users-list"}>
-        {recentUsers && recentUsers.filter(user => user.online).map((user, i) => {
+        {recentUsers && recentUsers.map((user, i) => {
           return <div key={i}
                       className={"listitem users-listitem"}>
             <span>{user.username}</span>
-            <span>Online</span>
-          </div>})}
-        {recentUsers && recentUsers.filter(user => !user.online).map((user, i) => {
-          return <div key={i}
-                      className={"listitem users-listitem"}>
-            <span>{user.username}</span>
-            <span>{user.last_online.slice(0, 10)}</span>
+            <span>{formatDate(user.last_online)}</span>
           </div>})}
       </div>
       {userPage === 'Log In' &&

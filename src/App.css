@@ -262,6 +262,10 @@
   overflow: hidden;
 }
 
+.users-listitem span{
+  margin: auto;
+}
+
 .users-user {
   margin: 4em 0em 0em;
   width: 100%;
