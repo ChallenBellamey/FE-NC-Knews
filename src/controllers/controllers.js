@@ -56,7 +56,7 @@ export const getTopics = async () => {
 const generateDate = () => {
     let date = new Date();
     date.setTime(date.getTime() + date.getTimezoneOffset());
-    return `${Math.floor(date.getDate() / 10)}${date.getDate() % 10}/${Math.floor(date.getMonth() / 10)}${date.getMonth() % 10}/${date.getFullYear()} ${Math.floor(date.getHours() / 10)}${date.getHours() % 10}:${date.getMinutes()}`;
+    return date;
 };
 
 export const signupUser = async (user) => {

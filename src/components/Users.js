@@ -1,6 +1,9 @@
 import React from 'react';
 
 export function Users ({recentUsers, userPage, input, userInput, userSubmit, user, selectAuthor}) {
+    const formatDate = (date) => {
+      return `${Math.floor(date.getDate() / 10)}${date.getDate() % 10}/${Math.floor(date.getMonth() / 10)}${date.getMonth() % 10}/${date.getFullYear()} ${Math.floor(date.getHours() / 10)}${date.getHours() % 10}:${date.getMinutes()}`;
+    };
     return <div className={"page users"}>
       <div className={"header users-header"}>
         <h2>Users</h2>
@@ -13,7 +16,7 @@ export function Users ({recentUsers, userPage, input, userInput, userSubmit, use
                       className={"listitem users-listitem"}
                       onClick={() => selectAuthor(user.username)}>
             <span>{user.username}</span>
-            <span>{user.last_online}</span>
+            <span>{formatDate(user.last_online)}</span>
           </div>})}
       </div>
       {userPage === 'Log In' &&
