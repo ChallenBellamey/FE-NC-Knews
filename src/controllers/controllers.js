@@ -88,6 +88,9 @@ export const logoutUser = async (user) => {
         log: 'Out',
         last_online: generateDate()
     })
+        .then(() => {
+            return null;
+        })
         .catch(err => {return null})
 }
 

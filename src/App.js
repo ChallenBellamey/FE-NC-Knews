@@ -19,7 +19,7 @@ class App extends Component {
     input: {lastClicked: 'Featured', login: {username: '', password: ''},
     signup: {username: '', password1: '', password2: '', name: '', about: ''}, comment: '', createarticle: {topic: 'New Topic', newtopic: '', title: '', body: ''}, votes: {articles: {}, comments: {}},
     articleSort: {topic: 'All', sort: 'Newest'}},
-    articleSort: {sort_by: 'date', order: 'desc', topic: null, author: null, limit: 15, p: 1},
+    articleSort: {sort_by: 'date', order: 'desc', topic: null, author: null, limit: Math.ceil(window.innerHeight / (16 * 5)) + 1, p: 1},
     hidden: {comments: true}
   };
 
@@ -36,6 +36,12 @@ class App extends Component {
   };
 
   updateDisplay = () => {
+    const limit = Math.ceil(window.innerHeight / (16 * 5)) + 1;
+    this.setState(prevState => {
+      return {
+        articleSort: {...prevState.articleSort, limit}
+      };
+    }, this.getArticles());
     const display = (window.innerWidth < 1000) ? 'Mobile' : 'Desktop';
     if (display !== this.state.display) {
       if (display === 'Desktop') {
@@ -56,9 +62,11 @@ class App extends Component {
       } else if (display === 'Mobile') {
         const {input} = this.state;
         const page = {1: input.lastClicked, 2: null, user: this.state.page.user};
-        this.setState({
-          display,
-          page
+        this.setState(prevState => {
+          return {
+            display,
+            page
+          };
         });
       };
     };
@@ -437,7 +445,7 @@ class App extends Component {
 
 function Page ({state, pageNum, content, updatePage, userInput, userSubmit, userVote, sortArticles, selectArticle, selectTopic, selectAuthor, setListScroller, scrollList, toggleHidden}) {
   const {page, topArticles, topComments, input, user, articles, topics, selectedArticle, listScroller, hidden, recentUsers} = state;
-  return <div className={`page ${pageNum}`}>
+  return <div id="page" className={`page ${pageNum}`}>
     {content === 'Featured' && <Featured
                                   topArticles={topArticles}
                                   topComments={topComments}
