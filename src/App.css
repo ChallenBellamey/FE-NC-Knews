@@ -262,6 +262,10 @@
   overflow: hidden;
 }
 
+.users-list img{
+  width: 50%;
+}
+
 .users-listitem span{
   margin: auto;
 }

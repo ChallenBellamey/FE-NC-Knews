@@ -1,4 +1,5 @@
 import React from 'react';
+import loading from '../images/loading.gif';
 
 export function Users ({recentUsers, userPage, input, userInput, userSubmit, user, selectAuthor}) {
     const formatDate = (date) => {
@@ -11,6 +12,7 @@ export function Users ({recentUsers, userPage, input, userInput, userSubmit, use
         <span>{userPage}</span>
       </div>
       <div className={"list users-list"}>
+        {!recentUsers && <img src={loading} alt="loading..." />}
         {recentUsers && recentUsers.map((user, i) => {
           return <div key={i}
                       className={"listitem users-listitem"}
