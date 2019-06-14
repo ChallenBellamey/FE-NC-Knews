@@ -17,7 +17,7 @@ export function Users ({recentUsers, userPage, input, userInput, userSubmit, use
           return <div key={i}
                       className={"listitem users-listitem"}
                       onClick={() => selectAuthor(user.username)}>
-            <span>{user.username}</span>
+            <span className={'select'}>{user.username}</span>
             <span>Last Online: {formatDate(new Date(user.last_online))}</span>
           </div>})}
       </div>

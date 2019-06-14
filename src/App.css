@@ -177,6 +177,10 @@
   color: #272727;
 }
 
+.alt-select:hover {
+  color: #ba1e31;
+}
+
 /* Featured Page */
 
 .featured {
@@ -227,7 +231,7 @@
 
 .featured-listitem span{
   grid-area: span;
-  margin: auto 0.5em;
+  margin: auto;
 }
 
 /* Users Page */
@@ -508,6 +512,7 @@
 
 .comments-listitem span{
   grid-area: span;
+  margin: auto;
 }
 
 .comments-listitem-body {

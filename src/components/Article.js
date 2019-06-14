@@ -76,8 +76,8 @@ export function Article ({article, comments, user, input, userInput, userSubmit,
                         style={(user && {margin: "-5em 0em 0em"}) || (!user && {margin: "5em 0em 0em"})} />}
         {comments && comments.map((comment, i) => {
           return <div key={i} className={"listitem comments-listitem"}>
-            <span className={"comments-listitem-body"}>{comment.body}</span>
-            <span className={'select'}
+            <p className={"comments-listitem-body"}>{comment.body}</p>
+            <span className={'alt-select'}
               onClick={() => selectAuthor(comment.author)}
               >{comment.author}</span>
             <span>{comment.created_at.slice(0, 10)}</span>
@@ -87,11 +87,7 @@ export function Article ({article, comments, user, input, userInput, userSubmit,
                   className={"comment-voteup"}
                   src={thumbsup}
                   alt="/\"
-                  onClick={() => userVote('Vote Up Comment', comment.comment_id)} />) ||
-                <img
-                  className={"comment-voteup"}
-                  src={blank}
-                  alt="" />}
+                  onClick={() => userVote('Vote Up Comment', comment.comment_id)} />)}
               {comment.votes}
               {user && user.username !== comment.author && (!input.votes.comments[comment.comment_id] || input.votes.comments[comment.comment_id] > -1) &&
                 <img
