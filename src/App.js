@@ -44,6 +44,7 @@ class App extends Component {
         };
       }, () => {this.getArticles(false)});
     };
+    console.log(window.innerWidth)
     const display = (window.innerWidth < 1000) ? 'Mobile' : 'Desktop';
     if (display !== this.state.display) {
       if (display === 'Desktop') {

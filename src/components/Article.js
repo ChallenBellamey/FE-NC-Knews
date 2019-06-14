@@ -52,7 +52,7 @@ export function Article ({article, comments, user, input, userInput, userSubmit,
       </div>
       <div className={"header comments-header"}
            onClick={() => toggleHidden('comments')}>
-        <h2>Comments
+        <h2>{`Comments (${(comments && comments.length) || 0})`}
         {!hidden && <img
             className={"comments-header-hide"}
             src={caretDown}
