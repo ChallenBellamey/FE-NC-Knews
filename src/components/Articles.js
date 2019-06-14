@@ -29,10 +29,10 @@ export function Articles ({articles, topics, sortArticles, selectTopic, selectAu
         {![...topics.map(topic => topic.slug), 'All'].includes (input.articleSort.topic) && <div className={'deselect'}
             onClick={() => selectAuthor(null)}>
             <img
-                      className="articles-header-cross"
-                      src={cross}
-                      alt="remove"
-                      onClick={() => selectAuthor(null)} />
+                className="articles-header-cross"
+                src={cross}
+                alt="remove"
+                onClick={() => selectAuthor(null)} />
             {input.articleSort.topic}
           </div>}
         <select className="articles-header-sort"
@@ -65,14 +65,16 @@ export function Articles ({articles, topics, sortArticles, selectTopic, selectAu
                       className={"listitem articles-listitem"}
                       onClick={() => selectArticle(article)}>
             <span className={"articles-listitem-title"}>{article.title}</span>
-            <span className={'select'}
+            <span className={'select articles-listitem-subtitle'}
               onClick={() => selectTopic(article.topic)}
               >{article.topic}</span>
-            <span className={'select'}
+            <span className={'select articles-listitem-subtitle'}
                onClick={() => selectAuthor(article.author)}
               >{article.author}</span>
-            <span>{article.created_at.slice(0, 10)}</span>
-            <span>Votes: {article.votes}</span>
+            <span className={'articles-listitem-subtitle'}>
+              {article.created_at.slice(0, 10)}</span>
+            <span className={'articles-listitem-subtitle'}>
+              Votes: {article.votes}</span>
           </div>})}
       </div>
     </div>

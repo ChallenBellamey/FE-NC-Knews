@@ -382,12 +382,16 @@
 
 .articles-listitem span{
   grid-area: span;
-  margin: auto 0.5em;
 }
 
 .articles-listitem-title {
   font-weight: bold;
   grid-area: title;
+  margin: auto 0.5em;
+}
+
+.articles-listitem-subtitle {
+  margin: auto;
 }
 
 /* Article Page */
