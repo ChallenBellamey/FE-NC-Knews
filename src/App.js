@@ -25,8 +25,7 @@ class App extends Component {
 
   componentDidMount = () => {
     // Media
-    const display = (window.innerWidth < 1000) ? 'Mobile' : 'Desktop';
-    this.setState({display});
+    this.updateDisplay();
     window.addEventListener("resize", this.updateDisplay);
 
     // Data
@@ -44,7 +43,6 @@ class App extends Component {
         };
       }, () => {this.getArticles(false)});
     };
-    console.log(window.innerWidth)
     const display = (window.innerWidth < 1000) ? 'Mobile' : 'Desktop';
     if (display !== this.state.display) {
       if (display === 'Desktop') {
