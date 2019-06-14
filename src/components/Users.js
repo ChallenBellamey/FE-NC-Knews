@@ -12,7 +12,7 @@ export function Users ({recentUsers, userPage, input, userInput, userSubmit, use
         <span>{userPage}</span>
       </div>
       <div className={"list users-list"}>
-        {!recentUsers && <img src={loading} alt="loading..." />}
+        {recentUsers.length === 0 && <img src={loading} alt="loading..." />}
         {recentUsers && recentUsers.map((user, i) => {
           return <div key={i}
                       className={"listitem users-listitem"}
@@ -34,7 +34,10 @@ export function Users ({recentUsers, userPage, input, userInput, userSubmit, use
             type="password"
             onChange={(event) => userInput('login', 'password', event.nativeEvent.target.value)}
             value={input.login.password}></input>
-          <button onClick={() => userSubmit('Log In')}>Log In</button>
+          <button className="alt-select"
+                  onClick={() => userSubmit('Log In')}>
+                  Log In
+          </button>
           <span className={"users-question"}>Test Account</span>
           <span className={"users-answer"}>Username: tickle122</span>
           <span className={"users-answer"}>Password: tickle122</span>
@@ -69,15 +72,22 @@ export function Users ({recentUsers, userPage, input, userInput, userSubmit, use
             className="users-answer users-input-large"
             onChange={(event) => userInput('signup', 'about', event.nativeEvent.target.value)}
             value={input.signup.about}></textarea>
-          <button onClick={() => userSubmit('Sign Up')}>Sign Up</button>
+          <button className="alt-select"
+                  onClick={() => userSubmit('Sign Up')}>
+                  Sign Up
+          </button>
         </div>
       }
       {user && userPage === user.username &&
         <div className={"users-user"}>
           <h3 className="users-question"><b>{user.username}</b></h3>
           <span className="users-answer">{user.name}</span>
-          <span className="users-question"><b>About me</b></span>
+          <span className="users-question"><b>About Me</b></span>
           <span className="users-answer">{user.about}</span>
+          <button className="alt-select"
+                  onClick={() => selectAuthor(user.username)}>
+                  My Articles
+          </button>
         </div>
       }
     </div>
