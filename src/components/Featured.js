@@ -14,12 +14,18 @@ export function Featured ({topArticles, topComments, selectArticle, selectAuthor
           return <div key={i}
                       className={"listitem featured-listitem"}
                       onClick={() => selectArticle(article)}>
-            <span><b>{`${article.title.slice(0, 50)}`}{article.title.length > 50 && '...'}</b></span>
-            <span>{topComments[i] && `"${topComments[i].body.slice(0, 50)}`}{topComments[i] && topComments[i].body.length > 50 && '...'}{topComments[i] && `"`}</span>
+            <span><b>{`${article.title.slice(0, 50)}`}{article.title.length > 50 && '...'}</b>
+            </span>
+            <span>{topComments[i] && `"${topComments[i].body.slice(0, 50)}`}{topComments[i] && topComments[i].body.length > 50 && '...'}{topComments[i] && `"`}
+            </span>
             <span className={'select'}
               onClick={() => selectAuthor(article.author)}
-              >{article.author}</span>
-            <span>{topComments[i] && topComments[i].author}</span>
+              >{article.author}
+            </span>
+            <span className={'select'}
+              onClick={() => selectAuthor(topComments[i].author)}>
+              {topComments[i] && topComments[i].author}
+            </span>
           </div>
         })}
       </div>
