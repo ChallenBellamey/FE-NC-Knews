@@ -13,7 +13,7 @@ import backgroundImage from './images/back.jpg';
 
 class App extends Component {
   state = {
-    page: {1: 'Featured', 2: 'Users', user: 'Sign Up'},
+    page: {1: 'Featured', 2: 'Users', user: 'Log In'},
     user: null,
     recentUsers: [],
     input: {lastClicked: 'Featured', login: {username: '', password: ''},
