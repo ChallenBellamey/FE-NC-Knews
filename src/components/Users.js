@@ -35,6 +35,9 @@ export function Users ({recentUsers, userPage, input, userInput, userSubmit, use
             onChange={(event) => userInput('login', 'password', event.nativeEvent.target.value)}
             value={input.login.password}></input>
           <button onClick={() => userSubmit('Log In')}>Log In</button>
+          <span className={"users-question"}>Test Account</span>
+          <span className={"users-answer"}>Username: tickle122</span>
+          <span className={"users-answer"}>Password: tickle122</span>
         </div>
       }
       {userPage === 'Sign Up' &&
