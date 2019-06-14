@@ -2,7 +2,13 @@ import React from 'react';
 
 export function Navbar ({user, userSubmit, updatePage}) {
     return <div className={"header navbar"}>
-      <h1 className={"navbar-header"}>
+      <h1 className={"navbar-header"}
+          onClick={() => {
+            updatePage('Users')
+              .then(() => {
+                updatePage('Featured');
+              })
+          }}>
         {"< NC Knews >"}
       </h1>
       <div className={"navbar-links"}>

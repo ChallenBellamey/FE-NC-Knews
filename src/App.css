@@ -128,6 +128,10 @@
   margin: auto;
 }
 
+.navbar-header:hover {
+  color: #ba1e31;
+}
+
 .navbar-links {
   grid-area: navbar-links;
   height: 100%;

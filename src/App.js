@@ -116,7 +116,7 @@ class App extends Component {
     </div>
   };
 
-  updatePage = (content, subcontent) => {
+  updatePage = async (content, subcontent) => {
     const {display} = this.state;
     let page;
     if (display === 'Desktop') {
