@@ -67,8 +67,12 @@ export function Article ({article, comments, user, input, userInput, userSubmit,
         {user && <div className={"listitem comments-custom"}>
           <textarea
             onChange={(event) => userInput('comment', null, event.nativeEvent.target.value)}
-            value={input.comment}></textarea>
-          <button onClick={() => userSubmit('Comment')}>Add Comment</button>
+            value={input.comment}>
+          </textarea>
+          <button className="alt-select"
+                  onClick={() => userSubmit('Comment')}>
+                  Add Comment
+          </button>
         </div>}
         {!comments && <img
                         src={loading}

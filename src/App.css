@@ -528,7 +528,7 @@
   width: 1em;
   position: relative;
   top: 0%;
-  left: 10%;
+  left: 100%;
   margin: auto;
 }
 
@@ -537,7 +537,7 @@
   width: 1em;
   position: relative;
   top: 0%;
-  left: -5%;
+  left: -25%;
   margin: auto;
 }
 
@@ -546,7 +546,7 @@
   width: 1em;
   position: relative;
   top: 5%;
-  left: 5%;
+  left: 25%;
   margin: auto;
 }
 
