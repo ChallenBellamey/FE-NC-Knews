@@ -31,6 +31,7 @@ export function Users ({recentUsers, userPage, input, userInput, userSubmit, use
           <span className={"users-question"}>Password</span>
           <input
             className="users-answer"
+            type="password"
             onChange={(event) => userInput('login', 'password', event.nativeEvent.target.value)}
             value={input.login.password}></input>
           <button onClick={() => userSubmit('Log In')}>Log In</button>
@@ -46,11 +47,13 @@ export function Users ({recentUsers, userPage, input, userInput, userSubmit, use
           <span className="users-question">Password</span>
           <input
             className="users-answer"
+            type="password"
             onChange={(event) => userInput('signup', 'password1', event.nativeEvent.target.value)}
             value={input.signup.password1}></input>
           <span className="users-question">Confirm Password</span>
           <input
             className="users-answer"
+            type="password"
             onChange={(event) => userInput('signup', 'password2', event.nativeEvent.target.value)}
             value={input.signup.password2}></input>
           <span className="users-question">Name</span>
