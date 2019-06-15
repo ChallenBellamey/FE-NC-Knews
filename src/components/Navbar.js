@@ -14,8 +14,12 @@ export function Navbar ({display, user, userSubmit, updatePage}) {
     {display === 'Desktop' &&
       <>
         <div className={"navbar-links"}>
-          <span onClick={() => updatePage('Featured')}>Featured</span>
-          <span onClick={() => updatePage('Users')}>Users</span>
+          <span onClick={() => {
+          updatePage('Users')
+            .then(() => {
+              updatePage('Featured');
+            })
+        }}>Home</span>
           <span onClick={() => updatePage('Articles')}>Articles</span>
         </div>
         {user && 
@@ -31,8 +35,12 @@ export function Navbar ({display, user, userSubmit, updatePage}) {
       </>}
       {display === 'Mobile' &&
         <div className={"navbar-links"}>
-          <span onClick={() => updatePage('Featured')}>Featured</span>
-          <span onClick={() => updatePage('Users')}>Users</span>
+          <span onClick={() => {
+          updatePage('Users')
+            .then(() => {
+              updatePage('Featured');
+            })
+        }}>Home</span>
           <span onClick={() => updatePage('Articles')}>Articles</span>
           {user && <span onClick={() => updatePage('Users', user.username)}>  {user.username}</span>}
           {user && <span onClick={() => userSubmit('Log Out')}>Log Out</      span>}

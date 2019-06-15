@@ -176,6 +176,7 @@
 .navbar-links *{
   height: 100%;
   font-weight: bold;
+  margin: auto 1em;
 }
 
 .navbar-links *:hover{
