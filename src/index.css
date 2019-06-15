@@ -3,6 +3,7 @@ body {
     height: 100vh;
     margin: 0;
     background-color: #ba1e31;
+    overscroll-behavior: none;
 }
 
 .body *{
