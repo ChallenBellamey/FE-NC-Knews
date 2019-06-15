@@ -33,7 +33,7 @@ export const getUsers = async () => {
         .then(({data: {users}}) => {
             return users;
         })
-        .catch(err => {return null})
+        .catch(err => {return []})
 };
 
 export const getSortedArticles = async (params) => {
@@ -41,7 +41,7 @@ export const getSortedArticles = async (params) => {
         .then(({data: {articles}}) => {
             return articles
         })
-        .catch(err => {return null})
+        .catch(err => {return []})
 };
 
 export const getTopComments = async (articles) => {
@@ -60,7 +60,7 @@ export const getArticleComments = async (article) => {
         .then(({data: {comments}}) => {
             return comments;
         })
-        .catch(err => {return null})
+        .catch(err => {return []})
 };
 
 export const getTopics = async () => {
@@ -68,7 +68,7 @@ export const getTopics = async () => {
         .then(({data: {topics}}) => {
             return topics;
         })
-        .catch(err => {return null})
+        .catch(err => {return []})
 };
 
 // POST
@@ -173,19 +173,23 @@ export const patchCommentVote = async (comment_id, inc_votes) => {
 
 // DELETE
 
-export const deleteArticle = async (article_id, topic) => {
+export const deleteArticle = async (article_id, sort) => {
     return axios.delete(`${path}/api/articles/${article_id}`)
         .then(() => {
-            return getSortedArticles({topic, limit: 1});
+            return getSortedArticles({...sort, limit: 1});
         })
         .then((articles) => {
             if (articles.length === 0) {
-                return axios.delete(`${path}/api/topics/${topic}`)
-                    .then(() => {
-                        return {deleted: true};
-                    })
+                if (sort.topic) {
+                    return axios.delete(`${path}/api/topics/${sort.topic}`)
+                        .then(() => {
+                            return {sortEmpty: true};
+                        })
+                } else {
+                    return {sortEmpty: true};
+                }
             } else {
-                return {deleted: false};
+                return {sortEmpty: false};
             };
         })
         .catch(err => {return null})

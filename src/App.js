@@ -153,11 +153,17 @@ class App extends Component {
     });
   };
 
-  updateContent = (select = true, sort = false) => {
-    this.getFeaturedContent();
-    this.getUsers();
-    this.getArticles(select, sort);
-    this.selectArticle(this.state.selectedArticle.article);
+  updateContent = async (select = true, sort = false) => {
+    this.getFeaturedContent()
+      .then(() => {
+        return this.getUsers();
+      })
+      .then(() => {
+        return this.getArticles(select, sort);
+      })
+      .then(() => {
+        if (!select) return this.selectArticle(this.state.selectedArticle.article);
+      })
   };
 
   userInput = (type, field, value) => {
@@ -174,7 +180,7 @@ class App extends Component {
     });
   };
 
-  getUsers = () => {
+  getUsers = async () => {
     getUsers().then((recentUsers) => {
       this.setState({
         recentUsers
@@ -182,7 +188,7 @@ class App extends Component {
     });
   };
 
-  getArticles = (select = true) => {
+  getArticles = async (select = true) => {
     const {articleSort} = this.state;
     getSortedArticles(articleSort)
       .then(articles => {
@@ -209,7 +215,7 @@ class App extends Component {
   };
 
   userSubmit = (type) => {
-    const {input: {signup, login, comment, createarticle}, selectedArticle, user} = this.state;
+    const {input: {signup, login, comment, createarticle}, selectedArticle, user, articleSort} = this.state;
     if (type === 'Sign Up') {
       if (signup.username !== '' && signup.password1 !== '' && signup.password2 !== '' && signup.password1 === signup.password2) {
         signupUser({username: signup.username, password: signup.password1, name: signup.name, about: signup.about})
@@ -272,22 +278,31 @@ class App extends Component {
           return postArticle(createarticle.title, createarticle.body, topic, user.username)
         })
         .then(article => {
-          this.updateContent(false);
-          this.selectArticle(article);
+          this.updateContent(false)
+            .then(() => {
+              this.selectArticle(article);
+            })
           this.resetInput();
         })
       } else {
         return;
       };
     } else if (type === 'Delete Article') {
-      const {article_id, topic} = selectedArticle.article;
-      deleteArticle(article_id, topic)
-        .then(({deleted}) => {
-          if (deleted) {
-            this.selectTopic(null, true);
+      const {article_id} = selectedArticle.article;
+      const {topic, author} = articleSort;
+      const sort = (topic) ? {topic} : {author};
+      deleteArticle(article_id, sort)
+        .then(({sortEmpty}) => {
+          if (sortEmpty && sort.topic) {
+            return this.selectTopic(null, true);
+          } else if (sortEmpty && sort.author) {
+            return this.selectAuthor(null);
           } else {
-            this.getArticles(true);
+            return this.getArticles(true);
           };
+        })
+        .then(() => {
+          this.updateContent(true);
         })
     };
   };
@@ -350,7 +365,7 @@ class App extends Component {
     };
   };
 
-  getFeaturedContent = () => {
+  getFeaturedContent = async () => {
     getSortedArticles({sort_by: 'votes', order: 'desc', limit: '10'})
       .then(topArticles => {
         this.setState({
@@ -363,6 +378,7 @@ class App extends Component {
               topComments
           })
       })
+      .catch(err => {return null})
   };
 
   sortArticles = (sort, select = false) => {
@@ -436,6 +452,7 @@ class App extends Component {
   selectArticle = (article, displayArticle = true, hideComments = true) => {
     this.setState(prevState => {
       return {
+        selectedArticle: {article, comments: null},
         input: {...prevState.input, comment: ''},
         hidden: {...prevState.hidden, comments: hideComments}
       };
@@ -445,7 +462,7 @@ class App extends Component {
         comments = comments || [];
         this.setState({
           selectedArticle: {article, comments}
-        });
+        })
       })
       .then(() => {
         if (displayArticle) {
