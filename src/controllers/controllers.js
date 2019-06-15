@@ -1,5 +1,25 @@
 import axios from 'axios';
 
+// Utils
+
+export const formatDate = (date, type = 'both', short = false) => {
+    const day = `${Math.floor(date.getDate() / 10)}${date.getDate() % 10}`
+    const month = `${Math.floor((date.getMonth() + 1) / 10)}${(date.getMonth() + 1) % 10}`;
+    const year = (short) ? `${date.getFullYear()}`.slice(2) : date.getFullYear();
+    const time = `${Math.floor(date.getHours() / 10)}${date.getHours() % 10}:${Math.floor(date.getMinutes() / 10)}${date.getMinutes() % 10}`;
+
+    if (type === 'both') return `${day}/${month}/${year} ${time}`;
+    if (type === 'cal') return `${day}/${month}/${year}`;
+    if (type === 'time') return time;
+};
+
+export const isToday = (date) => {
+    const today = new Date()
+    return date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear()
+};
+
 // API Requests
 
 let path = 'https://nc-knews-cb.herokuapp.com';
@@ -14,7 +34,7 @@ export const getUsers = async () => {
             return users;
         })
         .catch(err => {return null})
-}
+};
 
 export const getSortedArticles = async (params) => {
     return axios.get(`${path}/api/articles`, {params})

@@ -6,6 +6,7 @@ import thumbsdown from '../images/thumbsdown.png';
 import blank from '../images/blank.png';
 import caretUp from '../images/caret-up.png';
 import caretDown from '../images/caret-down.png';
+import {formatDate, isToday} from '../controllers/controllers.js';
 
 
 export function Article ({article, comments, user, input, userInput, userSubmit, userVote, selectTopic, selectAuthor, hidden, toggleHidden}) {
@@ -26,7 +27,10 @@ export function Article ({article, comments, user, input, userInput, userSubmit,
         <span className={'select'}
            onClick={() => selectAuthor(article.author)}
           >{article.author}</span>
-        <span>{article.created_at.slice(0, 10)}</span>
+        <span>
+          {isToday(new Date(article.created_at)) && formatDate(new Date(article.created_at), 'time')}
+          {!isToday(new Date(article.created_at)) && formatDate(new Date(article.created_at), 'cal', true)}
+        </span>
         <span>
           {(user && user.username !== article.author && (!input.votes.articles[article.article_id] || input.votes.articles[article.article_id] < 1) &&
             <img
@@ -86,7 +90,10 @@ export function Article ({article, comments, user, input, userInput, userSubmit,
             <span className={'alt-select'}
               onClick={() => selectAuthor(comment.author)}
               >{comment.author}</span>
-            <span>{comment.created_at.slice(0, 10)}</span>
+            <span>
+              {isToday(new Date(comment.created_at)) && formatDate(new Date(comment.created_at), 'time')}
+              {!isToday(new Date(comment.created_at)) && formatDate(new Date(comment.created_at), 'cal', true)}
+            </span>
             <span>
               {(user && user.username !== comment.author && (!input.votes.comments[comment.comment_id] || input.votes.comments[comment.comment_id] < 1) &&
                 <img

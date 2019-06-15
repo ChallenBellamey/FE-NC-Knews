@@ -1,6 +1,7 @@
 import React from 'react';
 import loading from '../images/loading.gif';
 import cross from '../images/cross.png';
+import {formatDate, isToday} from '../controllers/controllers.js';
 
 export function Articles ({articles, topics, sortArticles, selectTopic, selectAuthor, selectArticle, user, updatePage, input, setListScroller, listScroller, scrollList}) {
     const checkListScroller = () => {
@@ -72,7 +73,8 @@ export function Articles ({articles, topics, sortArticles, selectTopic, selectAu
                onClick={(event) => selectAuthor(article.author, false, event)}
               >{article.author}</span>
             <span className={'articles-listitem-subtitle'}>
-              {article.created_at.slice(0, 10)}</span>
+              {isToday(new Date(article.created_at)) && formatDate(new Date(article.created_at), 'time')}
+              {!isToday(new Date(article.created_at)) && formatDate(new Date(article.created_at), 'cal', true)}</span>
             <span className={'articles-listitem-subtitle'}>
               Votes: {article.votes}</span>
           </div>})}

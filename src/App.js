@@ -181,6 +181,25 @@ class App extends Component {
     });
   };
 
+  getArticles = (select = true) => {
+    const {articleSort} = this.state;
+    getSortedArticles(articleSort)
+      .then(articles => {
+        this.setState({
+            listScroller: null,
+            articles
+        }, () => {
+          if (select && articles) this.selectArticle(articles[0], false);
+        });
+      })
+    getTopics()
+      .then(topics => {
+        this.setState({
+            topics
+        });
+      })
+  };
+
   resetInput = () => {
     this.setState(prevState => {
       return {
@@ -386,25 +405,6 @@ class App extends Component {
       this.updatePage('Articles');
     });
   }
-
-  getArticles = (select = true) => {
-    const {articleSort} = this.state;
-    getSortedArticles(articleSort)
-      .then(articles => {
-        this.setState({
-            listScroller: null,
-            articles
-        }, () => {
-          if (select && articles) this.selectArticle(articles[0], false);
-        });
-      })
-    getTopics()
-      .then(topics => {
-        this.setState({
-            topics
-        });
-      })
-  };
 
   setListScroller = (listScroller) => {
     this.setState({
