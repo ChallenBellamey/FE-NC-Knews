@@ -281,9 +281,10 @@ class App extends Component {
     } else if (type === 'Delete Article') {
       const {article_id, topic} = selectedArticle.article;
       deleteArticle(article_id, topic)
-        .then((message) => {
-          this.selectTopic(null, true);
-          this.resetInput();
+        .then(({deleted}) => {
+          if (deleted) {
+            this.selectTopic(null, true);
+          };
         })
     };
   };

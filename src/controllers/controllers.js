@@ -180,9 +180,12 @@ export const deleteArticle = async (article_id, topic) => {
         })
         .then((articles) => {
             if (articles.length === 0) {
-                axios.delete(`${path}/api/topics/${topic}`)
-                return 'Topic deleted';
+                return axios.delete(`${path}/api/topics/${topic}`)
+                    .then(() => {
+                        return {deleted: true};
+                    })
             };
+            return {deleted: false};
         })
         .catch(err => {return null})
 }
