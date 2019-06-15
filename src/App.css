@@ -81,7 +81,14 @@
     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
   }
 
-  .navbar-links *{
+  .navbar {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas:  "navbar-header navbar-header"
+                        "navbar-links  navbar-user";
+  }
+
+  .navbar-links * {
     margin: auto 1em;
   }
 
@@ -102,7 +109,14 @@
     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
   }
 
-  .navbar-links *{
+  .navbar {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas:  "navbar-header"
+                        "navbar-links";
+  }
+
+  .navbar-links * {
     margin: auto 0.5em;
   }
 
@@ -120,8 +134,15 @@
     width: 100%;
   }
 
-  .navbar-links *{
-    margin: auto;
+  .navbar {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas:  "navbar-header"
+                        "navbar-links";
+  }
+
+  .navbar-links * {
+    margin: auto 0.5em;
   }
 
 }
@@ -130,10 +151,6 @@
 
 .navbar {
   grid-area: navbar;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  grid-template-areas:  "navbar-header navbar-header"
-                        "navbar-links  navbar-user";
   background-color: #272727;
   color: white;
   border-color: #272727;
@@ -282,7 +299,6 @@
   height: calc(100vh - 10em);
   grid-area: users-list;
   border-right: 2px solid;
-  overflow: hidden;
 }
 
 .users-list img{
@@ -290,11 +306,11 @@
 }
 
 .users-listitem span{
-  margin: auto;
+  margin: auto 0.5em;
 }
 
 .users-user {
-  margin: 0em;
+  margin: 0;
   width: 100%;
   height: calc(100% - 4em);
   grid-area: users-user;
@@ -304,11 +320,11 @@
 }
 
 .users-user button{
-  margin: 2em auto;
+  margin: 10% auto;
 }
 
 .users-question {
-  margin: 2em auto 0em;
+  margin: 10% auto 0em;
   width: 75%;
 }
 
@@ -483,7 +499,7 @@
 }
 
 .article-body p{
-  margin: 1em;
+  margin: 0.5em;
 }
 
 .comments-header {
@@ -497,17 +513,15 @@
 .comments-header-hide {
   width: 1em;
   position: relative;
-  top: 5%;
-  left: 75%;
-  margin: auto;
+  top: 10%;
+  left: 10%;
 }
 
 .comments-header-show {
   width: 1em;
   position: relative;
-  top: 5%;
-  left: 75%;
-  margin: auto;
+  top: 10%;
+  left: 10%;
 }
 
 .comments-list {
@@ -517,7 +531,7 @@
 }
 
 .comments-listitem {
-  height: 10em;
+  height: auto;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 2.5em;
   grid-template-areas:  "body body body"
@@ -536,7 +550,7 @@
 
 .comments-listitem-body {
   grid-area: body;
-  margin: 0.5em;
+  margin: 0 0.5em;
 }
 
 .comment-bin {

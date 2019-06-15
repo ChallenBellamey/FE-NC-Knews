@@ -81,6 +81,7 @@ class App extends Component {
     const {page, user} = this.state;
     return <div className="App" style={{backgroundImage: `url(${backgroundImage})`}}>
       <Navbar
+        display={this.state.display}
         user={user}
         userSubmit={this.userSubmit}
         updatePage={this.updatePage} />

@@ -3,7 +3,7 @@ import loading from '../images/loading.gif';
 
 export function Users ({recentUsers, userPage, input, userInput, userSubmit, user, selectAuthor}) {
     const formatDate = (date) => {
-      return `${Math.floor(date.getDate() / 10)}${date.getDate() % 10}/${Math.floor(date.getMonth() / 10)}${date.getMonth() % 10}/${date.getFullYear()} ${Math.floor(date.getHours() / 10)}${date.getHours() % 10}:${date.getMinutes()}`;
+      return `${Math.floor(date.getDate() / 10)}${date.getDate() % 10}/${Math.floor(date.getMonth() / 10)}${date.getMonth() % 10}/${date.getFullYear()} ${Math.floor(date.getHours() / 10)}${date.getHours() % 10}:${Math.floor(date.getMinutes() / 10)}${date.getMinutes() % 10}`;
     };
     return <div className={"page users"}>
       <div className={"header users-header"}>

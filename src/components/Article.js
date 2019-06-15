@@ -80,7 +80,9 @@ export function Article ({article, comments, user, input, userInput, userSubmit,
                         style={(user && {margin: "-5em 0em 0em"}) || (!user && {margin: "5em 0em 0em"})} />}
         {comments && comments.map((comment, i) => {
           return <div key={i} className={"listitem comments-listitem"}>
-            <p className={"comments-listitem-body"}>{comment.body}</p>
+            <div className={"comments-listitem-body"}>
+              <p>{comment.body}</p>
+            </div>
             <span className={'alt-select'}
               onClick={() => selectAuthor(comment.author)}
               >{comment.author}</span>
