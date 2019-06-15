@@ -2,8 +2,7 @@ import axios from 'axios';
 
 // API Requests
 
-// let path = 'https://nc-knews-cb.herokuapp.com';
-let path = 'http://localhost:9090';
+let path = 'https://nc-knews-cb.herokuapp.com';
 
 // GET
 
