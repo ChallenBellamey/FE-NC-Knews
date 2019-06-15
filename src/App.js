@@ -131,17 +131,18 @@ class App extends Component {
 
   updatePage = async (content, subcontent) => {
     const {display} = this.state;
+    let user;
     let page;
     if (display === 'Desktop') {
       if (content === 'Featured' || content === 'Articles') {
-        const user = this.state.page.user;
+        user = this.state.page.user;
         page = {1: content, 2: this.state.page[2], user};
       } else if (content === 'Users' || content === 'Article' || content === 'Create Article') {
-        const user = (subcontent) ? subcontent : this.state.page.user;
+        user = (subcontent) ? subcontent : this.state.page.user;
         page = {1: this.state.page[1], 2: content, user};
       };
     } else if (display === 'Mobile') {
-      const user = (subcontent) ? subcontent : this.state.page.user;
+      user = (subcontent) ? subcontent : this.state.page.user;
       page = {1: content, 2: null, user};
     };
     this.setState(prevState => {
@@ -344,7 +345,7 @@ class App extends Component {
     } else if (type === 'Delete Comment') {
       deleteComment(id)
         .then(() => {
-          this.updateContent(false);
+          this.selectArticle(selectedArticle.article, true, false);
         })
     };
   };
@@ -432,12 +433,11 @@ class App extends Component {
       });
   }
 
-  selectArticle = (article, display = true) => {
+  selectArticle = (article, displayArticle = true, hideComments = true) => {
     this.setState(prevState => {
       return {
-        selectedArticle: {article, comments: null},
         input: {...prevState.input, comment: ''},
-        hidden: {...prevState.hidden, comments: true}
+        hidden: {...prevState.hidden, comments: hideComments}
       };
     });
     getArticleComments(article)
@@ -448,7 +448,7 @@ class App extends Component {
         });
       })
       .then(() => {
-        if (display) {
+        if (displayArticle) {
           this.updatePage('Article');
         };
       })
