@@ -284,6 +284,8 @@ class App extends Component {
         .then(({deleted}) => {
           if (deleted) {
             this.selectTopic(null, true);
+          } else {
+            this.getArticles(true);
           };
         })
     };

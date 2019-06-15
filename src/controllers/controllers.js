@@ -184,8 +184,9 @@ export const deleteArticle = async (article_id, topic) => {
                     .then(() => {
                         return {deleted: true};
                     })
+            } else {
+                return {deleted: false};
             };
-            return {deleted: false};
         })
         .catch(err => {return null})
 }
