@@ -66,10 +66,10 @@ export function Articles ({articles, topics, sortArticles, selectTopic, selectAu
                       onClick={() => selectArticle(article)}>
             <span className={"articles-listitem-title"}>{article.title}</span>
             <span className={'select articles-listitem-subtitle'}
-              onClick={() => selectTopic(article.topic)}
+              onClick={(event) => selectTopic(article.topic, false, event)}
               >{article.topic}</span>
             <span className={'select articles-listitem-subtitle'}
-               onClick={() => selectAuthor(article.author)}
+               onClick={(event) => selectAuthor(article.author, false, event)}
               >{article.author}</span>
             <span className={'articles-listitem-subtitle'}>
               {article.created_at.slice(0, 10)}</span>

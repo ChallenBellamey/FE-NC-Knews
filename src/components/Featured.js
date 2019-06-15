@@ -19,11 +19,11 @@ export function Featured ({topArticles, topComments, selectArticle, selectAuthor
             <span>{topComments[i] && `"${topComments[i].body.slice(0, 50)}`}{topComments[i] && topComments[i].body.length > 50 && '...'}{topComments[i] && `"`}
             </span>
             <span className={'select'}
-              onClick={() => selectAuthor(article.author)}
+              onClick={(event) => selectAuthor(article.author, false, event)}
               >{article.author}
             </span>
             <span className={'select'}
-              onClick={() => selectAuthor(topComments[i].author)}>
+              onClick={(event) => selectAuthor(topComments[i].author, false, event)}>
               {topComments[i] && topComments[i].author}
             </span>
           </div>

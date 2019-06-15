@@ -358,7 +358,8 @@ class App extends Component {
     });
   };
 
-  selectTopic = (topic, select = false) => {
+  selectTopic = (topic, select = false, event) => {
+    if (event) event.stopPropagation();
     topic = (topic === 'All') ? null : topic;
     this.setState(prevState => {
       return {
@@ -372,7 +373,8 @@ class App extends Component {
     });
   };
 
-  selectAuthor = (author, select = false) => {
+  selectAuthor = (author, select = false, event) => {
+    if (event) event.stopPropagation();
     this.setState(prevState => {
       return {
         input: {...prevState.input, articleSort: {...prevState.input.articleSort, topic: (author || 'All')}},
