@@ -41,8 +41,8 @@ export function Articles ({articles, topics, sortArticles, selectTopic, selectAu
                 value={input.articleSort.sort}>
           <option>Newest</option>
           <option>Oldest</option>
-          <option>Most Votes</option>
-          <option>Fewest Votes</option>
+          <option>Highest Votes</option>
+          <option>Lowest Votes</option>
         </select>
         {user && <span
                     className="link articles-header-create"

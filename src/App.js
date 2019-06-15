@@ -368,8 +368,8 @@ class App extends Component {
   sortArticles = (sort, select = false) => {
     const config = {'Newest': {sort_by: 'date', order: 'desc', p: 1},
                   'Oldest': {sort_by: 'date', order: 'asc', p: 1},
-                  'Most Votes': {sort_by: 'votes', order: 'desc', p: 1},
-                  'Fewest Votes': {sort_by: 'votes', order: 'asc', p: 1}}
+                  'Highest Votes': {sort_by: 'votes', order: 'desc', p: 1},
+                  'Lowest Votes': {sort_by: 'votes', order: 'asc', p: 1}}
     this.setState(prevState => {
       return {
         input: {...prevState.input, articleSort: {...prevState.input.articleSort, sort}},
