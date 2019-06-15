@@ -28,6 +28,19 @@ class App extends Component {
     this.updateDisplay();
     window.addEventListener("resize", this.updateDisplay);
 
+    // User
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) loginUser({username: user.username, password: user.password})
+                .then((user) => {
+                  if (user) this.setState(prevState => {
+                    return {
+                      user,
+                      page: {...prevState.page, user: user.username}
+                    };
+                  });
+                  this.getUsers();
+                })
+
     // Data
     this.getFeaturedContent();
     this.getUsers();
@@ -181,6 +194,7 @@ class App extends Component {
       if (signup.username !== '' && signup.password1 !== '' && signup.password2 !== '' && signup.password1 === signup.password2) {
         signupUser({username: signup.username, password: signup.password1, name: signup.name, about: signup.about})
           .then((user) => {
+            if (user) localStorage.setItem('user', JSON.stringify(user));
             if (user) this.setState(prevState => {
               return {
                 user,
@@ -195,6 +209,7 @@ class App extends Component {
       if (login.username !== '' && login.password !== '') {
         loginUser({username: login.username, password: login.password})
           .then((user) => {
+            if (user) localStorage.setItem('user', JSON.stringify(user));
             if (user) this.setState(prevState => {
               return {
                 user,
@@ -206,10 +221,11 @@ class App extends Component {
           this.resetInput();
         };
     } else if (type === 'Log Out' && user) {
-      logoutUser({username: login.username})
+      logoutUser({username: user.username})
         .then(() => {
           this.getUsers();
         })
+      localStorage.removeItem('user');
       this.setState(prevState => {
         return {
           user: null,
