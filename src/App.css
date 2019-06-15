@@ -92,6 +92,10 @@
     margin: auto 1em;
   }
 
+  .navbar-user * {
+    margin: auto 0.5em;
+  }
+
 }
 
 /* Mobile */
@@ -117,7 +121,11 @@
   }
 
   .navbar-links * {
-    margin: auto 0.5em;
+    margin: auto 1em;
+  }
+
+  .navbar-user * {
+    margin: auto 1em;
   }
 
 }
@@ -142,6 +150,10 @@
   }
 
   .navbar-links * {
+    margin: auto 0.5em;
+  }
+
+  .navbar-user * {
     margin: auto 0.5em;
   }
 
@@ -176,7 +188,6 @@
 .navbar-links *{
   height: 100%;
   font-weight: bold;
-  margin: auto 1em;
 }
 
 .navbar-links *:hover{
@@ -193,7 +204,6 @@
 
 .navbar-user *{
   height: 100%;
-  margin: auto 1em;
 }
 
 .navbar-user *:hover{
