@@ -154,6 +154,7 @@ class App extends Component {
   };
 
   updateContent = async (select = true, sort = false) => {
+    const {selectedArticle, hidden} = this.state;
     this.getFeaturedContent()
       .then(() => {
         return this.getUsers();
@@ -162,7 +163,7 @@ class App extends Component {
         return this.getArticles(select, sort);
       })
       .then(() => {
-        if (!select) return this.selectArticle(this.state.selectedArticle.article);
+        if (!select) return this.selectArticle(selectedArticle.article, null, hidden.comments);
       })
   };
 
@@ -273,17 +274,28 @@ class App extends Component {
     } else if (type === 'Article') {
       const topic = (createarticle.topic === 'New Topic' && createarticle.newTopic !== '') ? createarticle.newtopic : createarticle.topic;
       if (createarticle.title !== '' && createarticle.body !== '') {
-        postTopic(topic, '')
-        .then(() => {
-          return postArticle(createarticle.title, createarticle.body, topic, user.username)
-        })
-        .then(article => {
-          this.updateContent(false)
+        if (createarticle.topic === 'New Topic') {
+          postTopic(topic, '')
             .then(() => {
-              this.selectArticle(article);
+              return postArticle(createarticle.title, createarticle.body, topic, user.username)
             })
-          this.resetInput();
-        })
+            .then(article => {
+              this.updateContent(false)
+                .then(() => {
+                  this.selectArticle(article);
+                })
+              this.resetInput();
+          })
+        } else {
+          postArticle(createarticle.title, createarticle.body, topic, user.username)
+            .then(article => {
+              this.updateContent(false)
+                .then(() => {
+                  this.selectArticle(article);
+                })
+              this.resetInput();
+          })
+        };
       } else {
         return;
       };
@@ -344,7 +356,7 @@ class App extends Component {
       });
       patchCommentVote(id, 1)
         .then(() => {
-          this.updateContent(false);
+          this.selectArticle(selectedArticle.article, true, false);
         })
     } else if (type === 'Vote Down Comment') {
       const voteCount = (input.votes.comments[id]) ? input.votes.comments[id] - 1 : -1;
@@ -355,7 +367,7 @@ class App extends Component {
       });
       patchCommentVote(id, -1)
         .then(() => {
-          this.updateContent(false);
+          this.selectArticle(selectedArticle.article, true, false);
         })
     } else if (type === 'Delete Comment') {
       deleteComment(id)
