@@ -20,7 +20,8 @@ class App extends Component {
     signup: {username: '', password1: '', password2: '', name: '', about: ''}, comment: '', createarticle: {topic: 'New Topic', newtopic: '', title: '', body: ''}, votes: {articles: {}, comments: {}},
     articleSort: {topic: 'All', sort: 'Newest'}},
     articleSort: {sort_by: 'date', order: 'desc', topic: null, author: null, limit: Math.floor(window.innerHeight / 78), p: 1},
-    hidden: {comments: true}
+    hidden: {comments: true},
+    errors: {users: {username: false, password: false}, createarticle: {newtopic: false, title: false, body: false}, comment: false}
   };
 
   componentDidMount = () => {
@@ -207,7 +208,8 @@ class App extends Component {
   resetInput = () => {
     this.setState(prevState => {
       return {
-        input: {...prevState.input, lastClicked: 'Featured', login: {username: '', password: ''}, signup: {username: '', password1: '', password2: '', name: '', about: ''}, comment: '', createarticle: {topic: 'New Topic', newtopic: '', title: '', body: ''}}
+        input: {...prevState.input, lastClicked: 'Featured', login: {username: '', password: ''}, signup: {username: '', password1: '', password2: '', name: '', about: ''}, comment: '', createarticle: {topic: 'New Topic', newtopic: '', title: '', body: ''}},
+        errors: {users: {username: false, password: false}, createarticle: {newtopic: false, title: false, body: false}, comment: false}
     }});
   };
 
@@ -227,7 +229,19 @@ class App extends Component {
             this.getUsers();
           })
           this.resetInput();
+      } else {
+        let newErrors = {username: false, password: false};
+        if (signup.username === '') {
+          newErrors.username = true;
+        } else if (signup.password1 === '' || signup.password2 === '') {
+          newErrors.password = true;
         };
+        this.setState(prevState => {
+          return {
+            errors: {...prevState.errors, users: newErrors}
+          }
+        })
+      };
     } else if (type === 'Log In') {
       if (login.username !== '' && login.password !== '') {
         loginUser({username: login.username, password: login.password})
@@ -242,7 +256,20 @@ class App extends Component {
             this.getUsers();
           })
           this.resetInput();
+      } else {
+        let newErrors = {username: false, password: false};
+        if (login.username === '') {
+          newErrors.username = true;
         };
+        if (login.password === '') {
+          newErrors.password = true;
+        };
+        this.setState(prevState => {
+          return {
+            errors: {...prevState.errors, users: newErrors}
+          }
+        })
+      };
     } else if (type === 'Log Out' && user) {
       logoutUser({username: user.username})
         .then(() => {
@@ -266,10 +293,20 @@ class App extends Component {
           });
           this.resetInput();
         })
+      } else {
+        let newErrors = false;
+        if (comment === '') {
+          newErrors = true;
+        };
+        this.setState(prevState => {
+          return {
+            errors: {...prevState.errors, comment: newErrors}
+          }
+        })
       };
     } else if (type === 'Article') {
-      const topic = (createarticle.topic === 'New Topic' && createarticle.newTopic !== '') ? createarticle.newtopic : createarticle.topic;
-      if (createarticle.title !== '' && createarticle.body !== '') {
+      const topic = (createarticle.topic === 'New Topic') ? createarticle.newtopic : createarticle.topic;
+      if (topic !== '' && createarticle.title !== '' && createarticle.body !== '') {
         if (createarticle.topic === 'New Topic') {
           postTopic(topic, '')
             .then(() => {
@@ -293,7 +330,21 @@ class App extends Component {
           })
         };
       } else {
-        return;
+        let newErrors = {newtopic: false, title: false, body: false};
+        if (topic === '') {
+          newErrors.newtopic = true;
+        };
+        if (createarticle.title === '') {
+          newErrors.title = true;
+        };
+        if (createarticle.body === '') {
+          newErrors.body = true;
+        };
+        this.setState(prevState => {
+          return {
+            errors: {...prevState.errors, createarticle: newErrors}
+          }
+        })
       };
     } else if (type === 'Delete Article') {
       const {article_id} = selectedArticle.article;
@@ -493,7 +544,7 @@ class App extends Component {
 // Main Components
 
 function Page ({state, pageNum, content, updatePage, userInput, userSubmit, userVote, sortArticles, selectArticle, selectTopic, selectAuthor, setListScroller, scrollList, toggleHidden}) {
-  const {page, topArticles, topComments, input, user, articles, topics, selectedArticle, listScroller, hidden, recentUsers} = state;
+  const {page, topArticles, topComments, input, user, articles, topics, selectedArticle, listScroller, hidden, recentUsers, errors} = state;
   return <div id="page" className={`page ${pageNum}`}>
     {content === 'Featured' && <Featured
                                   topArticles={topArticles}
@@ -507,7 +558,8 @@ function Page ({state, pageNum, content, updatePage, userInput, userSubmit, user
                               userSubmit={userSubmit} 
                               input={input}
                               user={user}
-                              selectAuthor={selectAuthor} />}
+                              selectAuthor={selectAuthor}
+                              errors={errors.users} />}
     {content === 'Articles' && <Articles
                                   articles={articles}
                                   topics={topics}
@@ -532,12 +584,14 @@ function Page ({state, pageNum, content, updatePage, userInput, userSubmit, user
                                 selectTopic={selectTopic}
                                 selectAuthor={selectAuthor}
                                 hidden={hidden.comments}
-                                toggleHidden={toggleHidden} />}
+                                toggleHidden={toggleHidden}
+                                errors={errors.comment} />}
     {content === 'Create Article' && <CreateArticle
                                         input={input}
                                         userInput={userInput}
                                         topics={topics}
-                                        userSubmit={userSubmit} />}
+                                        userSubmit={userSubmit}
+                                        errors={errors.createarticle} />}
   </div>
 };
 

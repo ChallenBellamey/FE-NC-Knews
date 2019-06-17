@@ -66,6 +66,26 @@
   border-color: black;
 }
 
+/* Other */
+
+.select:hover {
+  color: #272727;
+}
+
+.deselect:hover {
+  color: #272727;
+}
+
+.alt-select:hover {
+  color: #ba1e31;
+}
+
+/* Errors */
+
+.error-true {
+  background-color: pink;
+}
+
 /* Desktop */
 
 @media (min-width: 1000px) {
@@ -207,20 +227,6 @@
 }
 
 .navbar-user *:hover{
-  color: #ba1e31;
-}
-
-/* Other */
-
-.select:hover {
-  color: #272727;
-}
-
-.deselect:hover {
-  color: #272727;
-}
-
-.alt-select:hover {
   color: #ba1e31;
 }
 

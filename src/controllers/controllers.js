@@ -87,7 +87,7 @@ export const signupUser = async (user) => {
         .then(({data: {user}}) => {
             return user;
         })
-        .catch(err => {return null})
+        .catch(err => {alert('Username already taken.')})
 };
 
 export const loginUser = async (user) => {

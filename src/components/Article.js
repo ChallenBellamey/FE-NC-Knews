@@ -9,7 +9,7 @@ import caretDown from '../images/caret-down.png';
 import {formatDate, isToday} from '../controllers/controllers.js';
 
 
-export function Article ({article, comments, user, input, userInput, userSubmit, userVote, selectTopic, selectAuthor, hidden, toggleHidden}) {
+export function Article ({article, comments, user, input, userInput, userSubmit, userVote, selectTopic, selectAuthor, hidden, toggleHidden, errors}) {
     return <div className={`page article-hidden-${hidden}`}>
       <div className={"header article-header"}>
         <span className={"article-header-title"}>
@@ -70,6 +70,7 @@ export function Article ({article, comments, user, input, userInput, userSubmit,
       {!hidden &&  <div className={"list comments-list"}>
         {user && <div className={"listitem comments-custom"}>
           <textarea
+            className={`error-${errors}`}
             onChange={(event) => userInput('comment', null, event.nativeEvent.target.value)}
             value={input.comment}>
           </textarea>

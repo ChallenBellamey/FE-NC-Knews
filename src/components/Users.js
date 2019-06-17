@@ -2,7 +2,7 @@ import React from 'react';
 import loading from '../images/loading.gif';
 import {formatDate} from '../controllers/controllers.js';
 
-export function Users ({recentUsers, userPage, input, userInput, userSubmit, user, selectAuthor}) {
+export function Users ({recentUsers, userPage, input, userInput, userSubmit, user, selectAuthor, errors}) {
     return <div className={"page users"}>
       <div className={"header users-header"}>
         <h2>Users</h2>
@@ -23,12 +23,12 @@ export function Users ({recentUsers, userPage, input, userInput, userSubmit, use
         <div className={"users-user"}>
           <span className={"users-question"}>Username</span>
           <input
-            className="users-answer"
+            className={`users-answer error-${errors.username}`}
             onChange={(event) => userInput('login', 'username', event.nativeEvent.target.value)}
             value={input.login.username}></input>
           <span className={"users-question"}>Password</span>
           <input
-            className="users-answer"
+            className={`users-answer error-${errors.password}`}
             type="password"
             onChange={(event) => userInput('login', 'password', event.nativeEvent.target.value)}
             value={input.login.password}></input>
@@ -45,18 +45,18 @@ export function Users ({recentUsers, userPage, input, userInput, userSubmit, use
         <div className={"users-user"}>
           <span className="users-question">Username</span>
           <input
-            className="users-answer"
+            className={`users-answer error-${errors.username}`}
             onChange={(event) => userInput('signup', 'username', event.nativeEvent.target.value)}
             value={input.signup.username}></input>
           <span className="users-question">Password</span>
           <input
-            className="users-answer"
+            className={`users-answer error-${errors.password}`}
             type="password"
             onChange={(event) => userInput('signup', 'password1', event.nativeEvent.target.value)}
             value={input.signup.password1}></input>
           <span className="users-question">Confirm Password</span>
           <input
-            className="users-answer"
+            className={`users-answer error-${errors.password}`}
             type="password"
             onChange={(event) => userInput('signup', 'password2', event.nativeEvent.target.value)}
             value={input.signup.password2}></input>
