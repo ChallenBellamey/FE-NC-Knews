@@ -141,10 +141,12 @@ class App extends Component {
       } else if (content === 'Users' || content === 'Article' || content === 'Create Article') {
         user = (subcontent) ? subcontent : this.state.page.user;
         page = {1: this.state.page[1], 2: content, user};
+        this.resetErrors();
       };
     } else if (display === 'Mobile') {
       user = (subcontent) ? subcontent : this.state.page.user;
       page = {1: content, 2: null, user};
+      if (content === 'Users' || content === 'Article' || content === 'Create Article') {this.resetErrors()};
     };
     this.setState(prevState => {
       return {
@@ -208,9 +210,25 @@ class App extends Component {
   resetInput = () => {
     this.setState(prevState => {
       return {
-        input: {...prevState.input, lastClicked: 'Featured', login: {username: '', password: ''}, signup: {username: '', password1: '', password2: '', name: '', about: ''}, comment: '', createarticle: {topic: 'New Topic', newtopic: '', title: '', body: ''}},
-        errors: {users: {username: false, password: false}, createarticle: {newtopic: false, title: false, body: false}, comment: false}
+        input: {...prevState.input, lastClicked: 'Featured', login: {username: '', password: ''}, signup: {username: '', password1: '', password2: '', name: '', about: ''}, comment: '', createarticle: {topic: 'New Topic', newtopic: '', title: '', body: ''}}
     }});
+    this.resetErrors();
+  };
+
+  resetErrors = (type) => {
+    let {errors} = this.state;
+    if (!type) {
+      errors = {users: {username: false, password: false}, createarticle: {newtopic: false, title: false, body: false}, comment: false};
+    } else if (type === 'users') {
+      errors = {...errors, users: {username: false, password: false}};
+    } else if (type === 'createarticle') {
+      errors = {...errors, createarticle: {newtopic: false, title: false, body: false}};
+    } else if (type === 'comment') {
+      errors = {...errors, comment: false};
+    };
+    this.setState({
+      errors
+    });
   };
 
   userSubmit = (type) => {
@@ -528,7 +546,8 @@ class App extends Component {
           if (displayArticle) {
             this.updatePage('Article');
           };
-        })
+      })
+      this.resetErrors();
     });
   };
 
@@ -537,6 +556,8 @@ class App extends Component {
       return {
         hidden: {...prevState.hidden, [type]: !prevState.hidden[type]}
       };
+    }, () => {
+      this.resetErrors('comment');
     });
   };
 
@@ -544,7 +565,7 @@ class App extends Component {
 
 // Main Components
 
-function Page ({state, pageNum, content, updatePage, userInput, userSubmit, userVote, sortArticles, selectArticle, selectTopic, selectAuthor, setListScroller, scrollList, toggleHidden}) {
+function Page ({state, pageNum, content, updatePage, userInput, userSubmit, userVote, sortArticles, selectArticle, selectTopic, selectAuthor, setListScroller, scrollList, toggleHidden, resetErrors}) {
   const {page, topArticles, topComments, input, user, articles, topics, selectedArticle, listScroller, hidden, recentUsers, errors} = state;
   return <div id="page" className={`page ${pageNum}`}>
     {content === 'Featured' && <Featured
