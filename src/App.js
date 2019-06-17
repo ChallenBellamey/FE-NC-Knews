@@ -233,7 +233,8 @@ class App extends Component {
         let newErrors = {username: false, password: false};
         if (signup.username === '') {
           newErrors.username = true;
-        } else if (signup.password1 === '' || signup.password2 === '') {
+        };
+        if (signup.password1 === '' || signup.password2 === '') {
           newErrors.password = true;
         };
         this.setState(prevState => {
