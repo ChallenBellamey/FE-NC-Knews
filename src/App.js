@@ -153,17 +153,13 @@ class App extends Component {
     });
   };
 
-  updateContent = async (select = true, sort = false) => {
-    const {selectedArticle, hidden} = this.state;
-    this.getFeaturedContent()
+  updateContent = async (select = true) => {
+    return this.getFeaturedContent()
       .then(() => {
         return this.getUsers();
       })
       .then(() => {
-        return this.getArticles(select, sort);
-      })
-      .then(() => {
-        if (!select) return this.selectArticle(selectedArticle.article, null, hidden.comments);
+        return this.getArticles(select);
       })
   };
 
@@ -415,7 +411,7 @@ class App extends Component {
     this.setState(prevState => {
       return {
         input: {...prevState.input, articleSort: {...prevState.input.articleSort, topic: (topic || 'All')}},
-        articleSort: {...prevState.articleSort, topic, p: 1},
+        articleSort: {...prevState.articleSort, author: null, topic, p: 1},
         listScroller: {...prevState.listScroller, scrollTop: 0}
       };
     }, () => {
@@ -429,7 +425,7 @@ class App extends Component {
     this.setState(prevState => {
       return {
         input: {...prevState.input, articleSort: {...prevState.input.articleSort, topic: (author || 'All')}},
-        articleSort: {...prevState.articleSort, author, p: 1},
+        articleSort: {...prevState.articleSort, topic: null, author, p: 1},
         listScroller: {...prevState.listScroller, scrollTop: 0}
       };
     }, () => {
@@ -468,19 +464,20 @@ class App extends Component {
         input: {...prevState.input, comment: ''},
         hidden: {...prevState.hidden, comments: hideComments}
       };
-    });
-    getArticleComments(article)
-      .then(comments => {
-        comments = comments || [];
-        this.setState({
-          selectedArticle: {article, comments}
+    }, () => {
+      getArticleComments(article)
+        .then(comments => {
+          comments = comments || [];
+          this.setState({
+            selectedArticle: {article, comments}
+          })
         })
-      })
-      .then(() => {
-        if (displayArticle) {
-          this.updatePage('Article');
-        };
-      })
+        .then(() => {
+          if (displayArticle) {
+            this.updatePage('Article');
+          };
+        })
+    });
   };
 
   toggleHidden = (type) => {

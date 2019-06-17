@@ -99,7 +99,7 @@ export const loginUser = async (user) => {
         .then(({data: {user}}) => {
             return user;
         })
-        .catch(err => {return null})
+        .catch(err => {alert('Username or password incorrect.')})
 };
 
 export const logoutUser = async (user) => {

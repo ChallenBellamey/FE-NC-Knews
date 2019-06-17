@@ -14,7 +14,8 @@ export function CreateArticle ({input, userInput, topics, userSubmit}) {
         </select>
         {input.createarticle.topic === 'New Topic' &&
           <input value={input.createarticle.newtopic}
-                  onChange={(event) => userInput('createarticle', 'newtopic', event.nativeEvent.target.value)}></input>}
+                  onChange={(event) => userInput('createarticle', 'newtopic', event.nativeEvent.target.value)}
+                  placeholder="Topic Name"></input>}
         <span>Article Title</span>
         <textarea value={input.createarticle.title}
                   onChange={(event) => userInput('createarticle', 'title', event.nativeEvent.target.value)}></textarea>
