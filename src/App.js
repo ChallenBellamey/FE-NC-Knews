@@ -307,7 +307,7 @@ class App extends Component {
         .then((comment) => {
           this.setState(prevState => {
             return {
-              selectedArticle: {...prevState.selectedArticle, comments: [...prevState.selectedArticle.comments, comment]}
+              selectedArticle: {...prevState.selectedArticle, comments: [comment, ...prevState.selectedArticle.comments]}
             };
           });
           this.resetInput();
